@@ -1,4 +1,4 @@
-# Patterns of Social Mixing Relevant to Transmission of Respiratory Pathogens: A Systematic Review of Contact Surveys
+# Patterns of Social Mixing Relevant to Transmission of Respiratory Pathogens: A Systematic Review of Contact Surveys 🤝🤧 
 
 ## Overview
 This repository contains the code used to analyse the results of a systematic review of social contact surveys. Briefly, a systematic review was carried out in order to identify social contact surveys that had been carried out in Lower, Lower-Middle and Upper-Middle Income Countries (LICs, LMICs and UMICs respectively). Collated individual-level data from these surveys was then analysed using a Bayesian Regression based approach in order to explore the factors driving and shaping the patterns of social contact across populations.
