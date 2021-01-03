@@ -4,8 +4,8 @@
 This repository contains the code used to analyse the results of a systematic review of social contact surveys. Briefly, a systematic review was carried out in order to identify social contact surveys that had been carried out in Lower, Lower-Middle and Upper-Middle Income Countries (LICs, LMICs and UMICs respectively). Collated individual-level data from these surveys was then analysed using a Bayesian Regression based approach in order to explore the factors driving and shaping the patterns of social contact across populations.
 
 ## Repo Contents
-- [Analyses](./Analyses): `R` code that runs the analyses and generates the figures featured in the paper.
-- [Functions](./Functions): `R` functions.
+- [Analyses](./Analyses): Code running the analyses and generates the figures featured in the paper.
+- [Functions](./Functions): Extra functions required for the analyses presented in the paper.
 - [Data](./Data): Containing the individual-level social contact data collated as part of the systematic review and that are used in the analyses presented here. 
 - [Figures](./Figures): Containing .PDF and .ai versions of paper figures.
 - [Outputs](./Outputs): Containing .rds outputs from model fitting (undertaken using a Bayesian Regression approach and implemented  using BRMS) for each of the analyses conducted.
