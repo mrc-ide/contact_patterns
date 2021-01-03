@@ -6,13 +6,13 @@ setwd("N:/")
 loc <- didehpc::path_mapping("location", "N:", "//fi--didenas5/malaria", "N:")
 config <- didehpc::didehpc_config(shares = loc, use_rrq = FALSE, cluster = "fi--didemrchnb", parallel = FALSE, rtools = TRUE, cores = 2)
 packages <- c("rstan", "brms", "tidyverse", "gdata")
-sources <- c("N:/Charlie/contact_matrix_work/cluster_functions.R")
-context_name <- paste0("N:/Contact_Matrix_Work/STAN_Tester/context_", Sys.Date())
+sources <- c("N:/Charlie/contact_matrix_work/contact_patterns/Functions/cluster_functions.R")
+context_name <- paste0("N:/contact_matrix_work/context_", Sys.Date())
 ctx <- context::context_save(path = context_name, sources = sources, packages = packages)
 run <- didehpc::queue_didehpc(ctx, config = config)
 
 # Loading In Contact Survey Data
-data <- read.csv("N:/Charlie/contact_matrix_work/combined_participant_lvl_all.csv") %>%
+data <- read.csv("N:/Charlie/contact_matrix_work/contact_patterns/Data/combined_participant_lvl_all.csv") %>%
   mutate(tot_all_inc_miss = as.numeric(tot_all_inc_miss),
          age3cat = as.factor(age3cat),
          hh_size = ifelse(hh_size == "6+", 6, hh_size),
@@ -59,32 +59,33 @@ run$task_list()
 run$task_times()
 
 # MCMC Parameters
-MCMC_parameters <- list(iterations = 5000, burnin = 2500, chains = 3, cores = 3)
+MCMC_parameters <- list(iterations = 7000, burnin = 3000, chains = 2, cores = 2)
 
 # Fitting Total Contacts Made 
-total_LIC_age <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "age3cat", "LIC/LMIC", TRUE, data))
-total_LIC_gender <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "gender", "LIC/LMIC", TRUE, data))
-total_LIC_weekday <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "weekday", "LIC/LMIC", TRUE, data))
-total_LIC_hhsize <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "hh_size", "LIC/LMIC", TRUE, data))
-total_LIC_student <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "student", "LIC/LMIC", TRUE, data))
-total_LIC_employment <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "employment", "LIC/LMIC", TRUE, data))
-total_LIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "method", "LIC/LMIC", TRUE, data))
+total_LIC_age <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "age3cat", "LIC/LMIC", TRUE, data))
+total_LIC_gender <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "gender", "LIC/LMIC", TRUE, data))
+total_LIC_weekday <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "weekday", "LIC/LMIC", TRUE, data))
+total_LIC_hhsize <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "hh_size", "LIC/LMIC", TRUE, data))
+total_LIC_student <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "student", "LIC/LMIC", TRUE, data))
+total_LIC_employment <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "employment", "LIC/LMIC", TRUE, data))
+total_LIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "method", "LIC/LMIC", TRUE, data))
 
-total_UMIC_age <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "age3cat", "UMIC", TRUE, data))
-total_UMIC_gender <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "gender", "UMIC", TRUE, data))
-total_UMIC_weekday <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "weekday", "UMIC", TRUE, data))
-total_UMIC_hhsize <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "hh_size", "UMIC", TRUE, data))
-total_UMIC_student <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "student", "UMIC", TRUE, data))
-total_UMIC_employment <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "employment", "UMIC", TRUE, data))
-total_UMIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "method", "UMIC", TRUE, data))
+total_UMIC_age <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "age3cat", "UMIC", TRUE, data))
+total_UMIC_gender <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "gender", "UMIC", TRUE, data))
+total_UMIC_weekday <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "weekday", "UMIC", TRUE, data))
+total_UMIC_hhsize <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "hh_size", "UMIC", TRUE, data))
+total_UMIC_student <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "student", "UMIC", TRUE, data))
+total_UMIC_employment <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "employment", "UMIC", TRUE, data))
+total_UMIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "method", "UMIC", TRUE, data))
 
-total_HIC_age <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "age3cat", "HIC", TRUE, data))
-total_HIC_gender <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "gender", "HIC", TRUE, data))
-total_HIC_weekday <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "weekday", "HIC", TRUE, data))
-total_HIC_hhsize <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "hh_size", "HIC", TRUE, data))
-total_HIC_student <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "student", "HIC", TRUE, data))
-total_HIC_employment <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "employment", "HIC", TRUE, data))
-total_HIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all_inc_miss", "method", "HIC", TRUE, data))
+
+total_HIC_age <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "age3cat", "HIC", TRUE, data))
+total_HIC_gender <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "gender", "HIC", TRUE, data))
+total_HIC_weekday <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "weekday", "HIC", TRUE, data))
+total_HIC_hhsize <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "hh_size", "HIC", TRUE, data))
+total_HIC_student <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "student", "HIC", TRUE, data))
+total_HIC_employment <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "employment", "HIC", TRUE, data))
+total_HIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "method", "HIC", TRUE, data))
 
 # Fitting Location of Contacts
 location_LIC_age <- run$enqueue(location_contact(MCMC_parameters, "age3cat", "LIC/LMIC", TRUE, data))
@@ -161,79 +162,49 @@ duration_HIC_student <- run$enqueue(duration_contact(MCMC_parameters, "student",
 duration_HIC_employment <- run$enqueue(duration_contact(MCMC_parameters, "employment", "HIC", TRUE, data))
 duration_HIC_method <- run$enqueue(duration_contact(MCMC_parameters, "method", "HIC", TRUE, data))
 
-
+# Checking the Running
 total_LIC_age$status()
 total_LIC_gender$status()
 total_LIC_weekday$status()
+total_LIC_hhsize$status()
+total_LIC_student$status()
+total_LIC_employment$status()
+total_LIC_method$status()
+total_UMIC_age$status()
+total_UMIC_gender$status()
+total_UMIC_weekday$status()
+total_UMIC_hhsize$status() 
+total_UMIC_student$status()
+total_UMIC_employment$status()
+total_UMIC_method$status()
+total_HIC_age$status()
+total_HIC_gender$status()
+total_HIC_weekday$status()
+total_HIC_hhsize$status()
+total_HIC_student$status()
+total_HIC_employment$status()
+total_HIC_method$status()
+location_LIC_age$status()
+location_LIC_gender$status()
+location_LIC_weekday$status()
+location_LIC_hhsize$status()
+location_LIC_student$status()
+location_LIC_employment$status()
+location_LIC_method$status()
 
-run$unsubmit(duration_HIC_method$id)
+location_UMIC_age$status()
+location_UMIC_age$log()
 
-
-duration_LIC_age$status()
-
-test2 <- run$enqueue(location_contact(MCMC_parameters = MCMC_parameters,  
-                                      model_covariates = "age3cat", income_strata_subset = NULL, 
-                                      random_study_effect = TRUE, data = data))
-
-
-
-
-
-
-
-
-test$status()
-test2$status()
-
-result <- readRDS(file = "N:/Charlie/contact_matrix_work/Results/location_UMIC_weekday__50iter_1chains_2020-10-30.rds")
-result$fitting_output
-
-# Basic Checks and Results Accessing for the Negative Binomial
-pairs(result$fitting_output, off_diag_args = list(size = 1/5, alpha = 1/5))
-plot(result$fitting_output)
-conditional_effects(result$fitting_output)
-chains <- brms::posterior_samples(result$fitting_output)
-pp_check <- brms::pp_check(result$fitting_output)
-
-# Basic Checks and Results Accessing for the Multinomial
-pairs(result$fitting_output, off_diag_args = list(size = 1/5, alpha = 1/5))
-plot(result$fitting_output)
-conditional_effects(result$fitting_output)
-chains <- brms::posterior_samples(result$fitting_output)
-
-subset_data <- data[1:10, ] 
-names <- colnames(x)
-study <- subset_data$study[1]
-study_spec_covs <- names[grep(study, names)]
-
-school <- mean(x$b_mutotschool_Intercept) + mean(x$b_mutotschool_age3cat) * subset_data$age3cat + mean(x[, study_spec_covs[1]])
-work <- mean(x$b_mutotwork_Intercept) + mean(x$b_mutotwork_age3cat) * subset_data$age3cat + mean(x[, study_spec_covs[2]])
-other <- mean(x$b_mutotother_Intercept) + mean(x$b_mutotother_age3cat) * subset_data$age3cat + mean(x[, study_spec_covs[3]])
-
-school_prob_init <- exp(school)
-work_prob_init <- exp(work)
-other_prob_init <- exp(other)
-total_prob <- school_prob_init + work_prob_init + other_prob_init
-
-school_prob <- school_prob_init/(1 + total_prob)
-work_prob <- work_prob_init/(1 + total_prob)
-other_prob <- other_prob_init/(1 + total_prob)
-home_prob <- 1 - (school_prob + work_prob + other_prob)
-
-rmultinom(n = 1, size = subset_data$tot_all[1], prob = c(home_prob[1], school_prob[1], work_prob[1], other_prob[1]))
-
-school_prob + work_prob + other_prob + home_prob
-
-
-subset_data$prop_school
-subset_data$prop_other
-subset_data$prop_work
-subset_data$prop_home
-
-
-colnames(x)
-
-
-
-
-
+location_UMIC_gender$status()
+location_UMIC_weekday$status()
+location_UMIC_hhsize$status()
+location_UMIC_student$status()
+location_UMIC_employment$status()
+location_UMIC_method$status()
+location_HIC_age$status()
+location_HIC_gender$status()
+location_HIC_weekday$status()
+location_HIC_hhsize$status()
+location_HIC_student$status()
+location_HIC_employment$status()
+location_HIC_method$status()
