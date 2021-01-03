@@ -18,9 +18,9 @@ Running the code contained in this repository requires the following
 - The packages contained within **tidyverse** (Version 2.13.5 used here) (see: https://cran.r-project.org/web/packages/tidyverse/index.html)
 - The package **gdata** (version 2.13.5 used here) (see: https://cran.r-project.org/web/packages/gdata/index.html)
 
-This work utilises the probabilistic programming language STAN for model fitting (using a Bayesian approach and implemented via the package BRMS). STAN is a program for analysis of Bayesian models using Markov Chain Monte Carlo (MCMC) simulation. More information and details about the software and its use via R are available here: https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started.
+This work utilises the probabilistic programming language STAN for model fitting (implemented via the package BRMS). STAN is a program for analysis of Bayesian models using Markov Chain Monte Carlo (MCMC) simulation. More information and details about the software and its use via R are available here: https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started.
 
-# Installation Guide and Instructions for Use
+## Installation Guide and Instructions for Use
 The following instructions require that all the relevant `R` packages have been installed by the user and that STAN has been installed. To replicate and reproduce the analyses presented in this paper, do the following: 
 
 1. Download the [Data](./Data) folder of this repository. 
