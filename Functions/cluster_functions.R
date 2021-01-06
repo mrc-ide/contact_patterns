@@ -99,11 +99,6 @@ total_contacts <- function(MCMC_parameters, outcome_variable, model_covariates, 
 
 }
 
-
-model_covariates <- "age3cat"
-income_strata_subset <- "UMIC"
-random_study_effect <- TRUE
-
 # Function to Run Multinomial Random Effects Model for Proportion of Contacts Made In Each Location
 location_contact <- function(MCMC_parameters, model_covariates, income_strata_subset = NULL, random_study_effect = TRUE, data) {
   
@@ -193,7 +188,7 @@ location_contact <- function(MCMC_parameters, model_covariates, income_strata_su
   }
   to_save <- list(fitting_output = obj, diagnostics = diagnostics)
   file_name <- paste0(file_name , "_", MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
-  saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/Results/", file_name, ".rds"))
+  saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/", file_name, ".rds"))
   
 }
 
@@ -287,7 +282,7 @@ physical_contact <- function(MCMC_parameters, model_covariates, income_strata_su
   }
   to_save <- list(fitting_output = obj, diagnostics = diagnostics)
   file_name <- paste0(file_name , "_", MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
-  saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/Results/", file_name, ".rds"))
+  saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/", file_name, ".rds"))
   
 }
 
@@ -380,6 +375,6 @@ duration_contact <- function(MCMC_parameters, model_covariates, income_strata_su
   }
   to_save <- list(fitting_output = obj, diagnostics = diagnostics)
   file_name <- paste0(file_name , "_", MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
-  saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/Results/", file_name, ".rds"))
+  saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/", file_name, ".rds"))
   
 }
