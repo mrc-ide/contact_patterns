@@ -31,7 +31,9 @@ data <- read.csv("N:/Charlie/contact_matrix_work/contact_patterns/Data/combined_
          student = as.factor(student),
          study = as.factor(study),
          income = factor(income, levels = c("LIC/LMIC", "UMIC", "HIC")),
-         weekday = as.factor(weekday))
+         weekday = as.factor(weekday),
+         method = ifelse(method == "diary", "Diary", method),
+         method = ifelse(method == "Online", "Interview", method))
 
 table(data$gender, data$part_gender, useNA = "ifany") # fine
 table(data$age3cat, useNA = "ifany") # fine
