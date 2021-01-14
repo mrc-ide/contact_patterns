@@ -5,7 +5,7 @@ library(forestplot); library(tidyverse); library(friendlyeval)
 source("Functions/brms_output_summary_functions.R")
 
 # Loading In Data
-data <- read.csv("Data/combined_participant_lvl_all.csv") %>%
+new_data <- read.csv("Data/combined_participant_lvl_all.csv") %>%
   mutate(hh_size = case_when(hh_size == 1 ~ "1", hh_size == 2 ~ "2",
                              hh_size == 3 ~ "3", hh_size == 4 ~ "4", 
                              hh_size == 5 ~ "5", hh_size >= 6 ~ "6+", TRUE ~ NA_character_),
@@ -13,11 +13,12 @@ data <- read.csv("Data/combined_participant_lvl_all.csv") %>%
          method = ifelse(method == "diary", "Diary", method)) 
 
 # Loading In Relevant Model Outputs
-total_LIC_LMIC <- total_generate_forestplot_data("total", "LIC_LMIC")
-total_UMIC <- total_generate_forestplot_data("total", "UMIC")
-total_HIC <- total_generate_forestplot_data("total", "HIC")
+total_LIC_LMIC <- total_generate_forestplot_data(data = new_data, income_strata = "LIC_LMIC")
+total_UMIC <- total_generate_forestplot_data(new_data, "UMIC")
+total_HIC <- total_generate_forestplot_data(new_data, "HIC")
 
 # Individual Forest Plots for Each
+par(mfrow = c(1, 2))
 forestplot(labeltext = total_LIC_LMIC$tabletext, graph.pos = 4,
            total_LIC_LMIC$forest_data_to_plot,
            hrzl_lines = list("3" = gpar(lwd=1)),

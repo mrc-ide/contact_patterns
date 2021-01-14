@@ -556,6 +556,11 @@ location_generate_forestplot_data <- function(data, metric, income_strata) {
   lower <- cbind(lower_school, lower_work, lower_other)
   upper <- cbind(upper_school, upper_work, upper_other)
   
+  tabletext <- cbind(
+    unname(full_text),
+    c(NA, "N", NA, age_emp$n, NA, NA, gender_emp$n, NA, NA, weekday_emp$n, NA, NA, hh_emp$n, 
+      NA, NA, method_emp$n, NA, NA, student_emp$n, NA, NA, employment_emp$n, NA))
+  
   return(list(tabletext = tabletext,
               mean = mean,
               lower = lower,
