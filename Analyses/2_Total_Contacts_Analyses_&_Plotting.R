@@ -122,8 +122,8 @@ forestplot(tabletext,
            lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"),
            graphwidth = unit(100, "mm"),
-           xticks = c(0.75, 1, 1.25, 1.5, 1.75, 2),
+           xticks = c(0.5, 0.75, 1, 1.25, 1.5, 1.75, 2),
            ci.vertices = TRUE,
            xlog = FALSE, 
-           clip = c(0.75, 2))
-
+           zero = 0.5,
+           clip = c(0.5, 2))
