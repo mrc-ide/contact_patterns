@@ -91,12 +91,15 @@ total_contacts <- function(MCMC_parameters, outcome_variable, model_covariates, 
     }
   }
   for (i in 1:length(model_covariates)) {
-    file_name <- paste0(file_name, model_covariates[i])
+    file_name <- paste0(file_name, model_covariates[i], "_")
   }
-  file_name <- paste0(file_name , "_", MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
+  file_name <- paste0(file_name, MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
   to_save <- list(fitting_output = obj, diagnostics = diagnostics)
-  saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/", file_name, ".rds"))
-
+  if (length(model_covariates) == 1) {
+    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Univariate/", file_name, ".rds"))
+  } else {
+    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Multivariate/", file_name, ".rds"))
+  }
 }
 
 # Function to Run Multinomial Random Effects Model for Proportion of Contacts Made In Each Location
@@ -187,9 +190,12 @@ location_contact <- function(MCMC_parameters, model_covariates, income_strata_su
     file_name <- paste0(file_name, model_covariates[i], "_")
   }
   to_save <- list(fitting_output = obj, diagnostics = diagnostics)
-  file_name <- paste0(file_name , "_", MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
-  saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/", file_name, ".rds"))
-  
+  file_name <- paste0(file_name, MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
+  if (length(model_covariates) == 1) {
+    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Univariate/", file_name, ".rds"))
+  } else {
+    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Multivariate/", file_name, ".rds"))
+  }
 }
 
 
@@ -281,9 +287,12 @@ physical_contact <- function(MCMC_parameters, model_covariates, income_strata_su
     file_name <- paste0(file_name, model_covariates[i], "_")
   }
   to_save <- list(fitting_output = obj, diagnostics = diagnostics)
-  file_name <- paste0(file_name , "_", MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
-  saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/", file_name, ".rds"))
-  
+  file_name <- paste0(file_name, MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
+  if (length(model_covariates) == 1) {
+    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Univariate/", file_name, ".rds"))
+  } else {
+    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Multivariate/", file_name, ".rds"))
+  }  
 }
 
 # Function to Run Bernoulli Random Effects Model for Duration of Contact
@@ -374,7 +383,10 @@ duration_contact <- function(MCMC_parameters, model_covariates, income_strata_su
     file_name <- paste0(file_name, model_covariates[i], "_")
   }
   to_save <- list(fitting_output = obj, diagnostics = diagnostics)
-  file_name <- paste0(file_name , "_", MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
-  saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/", file_name, ".rds"))
-  
+  file_name <- paste0(file_name, MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
+  if (length(model_covariates) == 1) {
+    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Univariate/", file_name, ".rds"))
+  } else {
+    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Multivariate/", file_name, ".rds"))
+  }  
 }
