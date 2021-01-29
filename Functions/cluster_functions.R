@@ -1,6 +1,6 @@
 # Function to Run Negative Binomial Random Effects Model for Total Contacts Made
 total_contacts <- function(MCMC_parameters, outcome_variable, model_covariates, income_strata_subset = NULL, 
-                           random_study_effect = TRUE, data) {
+                           random_study_effect = TRUE, data, adapt_delta = 0.9) {
   
   # Checking MCMC Parameters Are Specified Correctly
   mcmc_parameter_names <- c("iterations", "burnin", "chains", "cores")
@@ -18,10 +18,10 @@ total_contacts <- function(MCMC_parameters, outcome_variable, model_covariates, 
   }
   
   # Checking Model Covariates Are Specified Correctly
-  all_covariates <- c("age3cat", "gender", "weekday", "hh_size", "student", "employment", "method")
+  all_covariates <- c("age3cat", "gender", "weekday", "hh_size", "student", "employment", "method", "part_age")
   for (i in seq_along(model_covariates)) {
     if (!(model_covariates[i] %in% all_covariates)) {
-      stop("Incorrect covariates specified. Must be from: age3cat, gender, weekday, hh_size, student, employment and/or method")
+      stop("Incorrect covariates specified. Must be from: age3cat, gender, weekday, hh_size, student, employment, part_age and/or method")
     }
   }
   
@@ -71,6 +71,7 @@ total_contacts <- function(MCMC_parameters, outcome_variable, model_covariates, 
                     warmup = MCMC_parameters$burnin,
                     chains = MCMC_parameters$chains,
                     cores = MCMC_parameters$cores,
+                    control = list(adapt_delta = adapt_delta), 
                     refresh = 0)
   
   # Collating Model Diagnostics
@@ -103,7 +104,7 @@ total_contacts <- function(MCMC_parameters, outcome_variable, model_covariates, 
 }
 
 # Function to Run Multinomial Random Effects Model for Proportion of Contacts Made In Each Location
-location_contact <- function(MCMC_parameters, model_covariates, income_strata_subset = NULL, random_study_effect = TRUE, data) {
+location_contact <- function(MCMC_parameters, model_covariates, income_strata_subset = NULL, random_study_effect = TRUE, data, adapt_delta = 0.9) {
   
   # Checking MCMC Parameters Are Specified Correctly
   mcmc_parameter_names <- c("iterations", "burnin", "chains", "cores")
@@ -112,10 +113,10 @@ location_contact <- function(MCMC_parameters, model_covariates, income_strata_su
   }
   
   # Checking Model Covariates Are Specified Correctly
-  all_covariates <- c("age3cat", "gender", "weekday", "hh_size", "student", "employment", "method")
+  all_covariates <- c("age3cat", "gender", "weekday", "hh_size", "student", "employment", "method", "part_age")
   for (i in seq_along(model_covariates)) {
     if (!(model_covariates[i] %in% all_covariates)) {
-      stop("Incorrect covariates specified. Must be from: age3cat, gender, weekday, hh_size, student, employment and/or method")
+      stop("Incorrect covariates specified. Must be from: age3cat, gender, weekday, hh_size, student, employment, part_age and/or method")
     }
   }
   
@@ -167,6 +168,7 @@ location_contact <- function(MCMC_parameters, model_covariates, income_strata_su
              warmup = MCMC_parameters$burnin,
              chains = MCMC_parameters$chains,
              cores = MCMC_parameters$cores,
+             control = list(adapt_delta = adapt_delta), 
              refresh = 0)
   
   # Collating Model Diagnostics
@@ -200,7 +202,7 @@ location_contact <- function(MCMC_parameters, model_covariates, income_strata_su
 
 
 # Function to Run Bernoulli Random Effects Model for Whether Contact Was Physical Or Not
-physical_contact <- function(MCMC_parameters, model_covariates, income_strata_subset = NULL, random_study_effect = TRUE, data) {
+physical_contact <- function(MCMC_parameters, model_covariates, income_strata_subset = NULL, random_study_effect = TRUE, data, adapt_delta = 0.9) {
   
   # Checking MCMC Parameters Are Specified Correctly
   mcmc_parameter_names <- c("iterations", "burnin", "chains", "cores")
@@ -209,10 +211,10 @@ physical_contact <- function(MCMC_parameters, model_covariates, income_strata_su
   }
   
   # Checking Model Covariates Are Specified Correctly
-  all_covariates <- c("age3cat", "gender", "weekday", "hh_size", "student", "employment", "method")
+  all_covariates <- c("age3cat", "gender", "weekday", "hh_size", "student", "employment", "method", "part_age")
   for (i in seq_along(model_covariates)) {
     if (!(model_covariates[i] %in% all_covariates)) {
-      stop("Incorrect covariates specified. Must be from: age3cat, gender, weekday, hh_size, student, employment and/or method")
+      stop("Incorrect covariates specified. Must be from: age3cat, gender, weekday, hh_size, student, employment, part_age and/or method")
     }
   }
   
@@ -264,6 +266,7 @@ physical_contact <- function(MCMC_parameters, model_covariates, income_strata_su
              warmup = MCMC_parameters$burnin,
              chains = MCMC_parameters$chains,
              cores = MCMC_parameters$cores,
+             control = list(adapt_delta = adapt_delta),
              refresh = 0)
   
   # Collating Model Diagnostics
@@ -296,7 +299,7 @@ physical_contact <- function(MCMC_parameters, model_covariates, income_strata_su
 }
 
 # Function to Run Bernoulli Random Effects Model for Duration of Contact
-duration_contact <- function(MCMC_parameters, model_covariates, income_strata_subset = NULL, random_study_effect = TRUE, data) {
+duration_contact <- function(MCMC_parameters, model_covariates, income_strata_subset = NULL, random_study_effect = TRUE, data, adapt_delta = 0.9) {
   
   # Checking MCMC Parameters Are Specified Correctly
   mcmc_parameter_names <- c("iterations", "burnin", "chains", "cores")
@@ -305,10 +308,10 @@ duration_contact <- function(MCMC_parameters, model_covariates, income_strata_su
   }
   
   # Checking Model Covariates Are Specified Correctly
-  all_covariates <- c("age3cat", "gender", "weekday", "hh_size", "student", "employment", "method")
+  all_covariates <- c("age3cat", "gender", "weekday", "hh_size", "student", "employment", "method", "part_age")
   for (i in seq_along(model_covariates)) {
     if (!(model_covariates[i] %in% all_covariates)) {
-      stop("Incorrect covariates specified. Must be from: age3cat, gender, weekday, hh_size, student, employment and/or method")
+      stop("Incorrect covariates specified. Must be from: age3cat, gender, weekday, hh_size, student, employment, part_age and/or method")
     }
   }
   
@@ -360,6 +363,7 @@ duration_contact <- function(MCMC_parameters, model_covariates, income_strata_su
              warmup = MCMC_parameters$burnin,
              chains = MCMC_parameters$chains,
              cores = MCMC_parameters$cores,
+             control = list(adapt_delta = adapt_delta),
              refresh = 0)
   
   # Collating Model Diagnostics
