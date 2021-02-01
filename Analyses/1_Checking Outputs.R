@@ -1,5 +1,13 @@
-files <- list.files(path = "Outputs/")
-
+files <- list.files(path = "Outputs/Univariate")
+for (i in 1:length(files)) {
+  x <- readRDS(paste0("Outputs/Univariate/", files[i]))
+  print(c(files[i], x$diagnostics$divergent))
+}
+files <- list.files(path = "Outputs/Multivariate")
+for (i in 1:length(files)) {
+  x <- readRDS(paste0("Outputs/Multivariate/", files[i]))
+  print(c(files[i], x$diagnostics$divergent))
+}
 
 ### Total Contacts ###
 LIC_total_hh <- readRDS(file = paste0("Outputs/" , files[pmatch("total_LIC_LMIC_hh_size", files)]))

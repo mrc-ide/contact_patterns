@@ -14,15 +14,16 @@ data <- read.csv("Data/combined_participant_lvl_all.csv") %>%
 # Loading In Relevant Model Outputs
 metric <- "total" # out of "total", "location", "physical" and "duration"
 income_strata <- "HIC" # out of "LIC_LMIC", "UMIC" and "HIC"
-files <- list.files(path = "Outputs/")
+models <- "Multivariate/"
+files <- list.files(path = paste0("Outputs/", models))
 
-hh <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0(metric, "_", income_strata, "_hh_size"), files)]))
-age <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0(metric, "_", income_strata, "_age3cat"), files)]))
-gender <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0(metric, "_", income_strata, "_gender"), files)]))
-student <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0(metric, "_", income_strata, "_student"), files)]))
-method <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0(metric, "_", income_strata, "_method"), files)]))
-weekday <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0(metric, "_", income_strata, "_weekday"), files)]))
-employment <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0(metric, "_", income_strata, "_employment"), files)]))
+age <- readRDS(file = paste0("Outputs/", models , files[pmatch(paste0(metric, "_", income_strata, "_age3cat_gender_1"), files)]))
+gender <- readRDS(file = paste0("Outputs/", models , files[pmatch(paste0(metric, "_", income_strata, "_age3cat_gender_1"), files)]))
+hh <- readRDS(file = paste0("Outputs/", models, files[pmatch(paste0(metric, "_", income_strata, "_age3cat_gender_hh_size"), files)]))
+method <- readRDS(file = paste0("Outputs/", models, files[pmatch(paste0(metric, "_", income_strata, "_age3cat_gender_method"), files)]))
+weekday <- readRDS(file = paste0("Outputs/", models, files[pmatch(paste0(metric, "_", income_strata, "_age3cat_gender_weekday"), files)]))
+student <- readRDS(file = paste0("Outputs/", models, files[pmatch(paste0(metric, "_", income_strata, "_part_age_gender_student"), files)]))
+employment <- readRDS(file = paste0("Outputs/", models, files[pmatch(paste0(metric, "_", income_strata, "_part_age_gender_employment"), files)]))
 
 # Extract Model Coefficients
 age_coef <- total_summarise_coefs(age)
@@ -60,13 +61,13 @@ method_avg <- gen_avgs(method_emp)
 student_avg <- gen_avgs(student_emp)
 employment_avg <- gen_avgs(employment_emp)
 
-age_ORs <- gen_RRs(age_coef)
-gender_ORs <- gen_RRs(gender_coef)
-weekday_ORs <- gen_RRs(weekday_coef)
-hh_size_ORs <- gen_RRs(hh_coef)
-method_ORs <- gen_RRs(method_coef)
-student_ORs <- gen_RRs(student_coef)
-employment_ORs <-gen_RRs(employment_coef)
+age_ORs <- gen_RRs(age_coef, 1:2)
+gender_ORs <- gen_RRs(gender_coef, 3)
+weekday_ORs <- gen_RRs(weekday_coef, 4)
+hh_size_ORs <- gen_RRs(hh_coef, 4:8)
+method_ORs <- gen_RRs(method_coef, 4)
+student_ORs <- gen_RRs(student_coef, 3)
+employment_ORs <-gen_RRs(employment_coef, 3)
 
 tabletext <- cbind(
   unname(full_text),
@@ -79,27 +80,27 @@ tabletext <- cbind(
 
 forest_data_to_plot <- 
   structure(list(
-    mean  = c(NA, NA, NA, unname(c(1, unlist(age_coef[2, ]))), 
-              NA, NA, unname(c(1, unlist(gender_coef[2, ]))), 
-              NA, NA, unname(c(1, unlist(weekday_coef[2, ]))), 
-              NA, NA, unname(c(1, unlist(hh_coef[2, ]))),
-              NA, NA, unname(c(1, unlist(method_coef[2,  ]))), 
-              NA, NA, unname(c(1, unlist(student_coef[2, ]))), 
-              NA, NA, unname(c(1, unlist(employment_coef[2, ]))), NA),
-    lower = c(NA, NA, NA, unname(c(1, unlist(age_coef[1, ]))), 
-              NA, NA, unname(c(1, unlist(gender_coef[1, ]))),
-              NA, NA, unname(c(1, unlist(weekday_coef[1, ]))), 
-              NA, NA, unname(c(1, unlist(hh_coef[1, ]))),
-              NA, NA, unname(c(1, unlist(method_coef[1,  ]))), 
-              NA, NA, unname(c(1, unlist(student_coef[1, ]))), 
-              NA, NA, unname(c(1, unlist(employment_coef[1, ]))), NA),
-    upper = c(NA, NA, NA, unname(c(1, unlist(age_coef[3, ]))), 
-              NA, NA, unname(c(1, unlist(gender_coef[3, ]))), 
-              NA, NA, unname(c(1, unlist(weekday_coef[3, ]))), 
-              NA, NA, unname(c(1, unlist(hh_coef[3, ]))),
-              NA, NA, unname(c(1, unlist(method_coef[3,  ]))), 
-              NA, NA, unname(c(1, unlist(student_coef[3, ]))), 
-              NA, NA, unname(c(1, unlist(employment_coef[3, ]))), NA)),
+    mean  = c(NA, NA, NA, unname(c(1, unlist(age_coef[2, 1:2]))), 
+              NA, NA, unname(c(1, unlist(gender_coef[2, 3]))), 
+              NA, NA, unname(c(1, unlist(weekday_coef[2, 4]))), 
+              NA, NA, unname(c(1, unlist(hh_coef[2, 4:8]))),
+              NA, NA, unname(c(1, unlist(method_coef[2,  4]))), 
+              NA, NA, unname(c(1, unlist(student_coef[2, 3]))), 
+              NA, NA, unname(c(1, unlist(employment_coef[2, 3]))), NA),
+    lower = c(NA, NA, NA, unname(c(1, unlist(age_coef[1, 1:2]))), 
+              NA, NA, unname(c(1, unlist(gender_coef[1, 3]))),
+              NA, NA, unname(c(1, unlist(weekday_coef[1, 4]))), 
+              NA, NA, unname(c(1, unlist(hh_coef[1, 4:8]))),
+              NA, NA, unname(c(1, unlist(method_coef[1,  4]))), 
+              NA, NA, unname(c(1, unlist(student_coef[1, 3]))), 
+              NA, NA, unname(c(1, unlist(employment_coef[1, 3]))), NA),
+    upper = c(NA, NA, NA, unname(c(1, unlist(age_coef[3, 1:2]))), 
+              NA, NA, unname(c(1, unlist(gender_coef[3, 3]))), 
+              NA, NA, unname(c(1, unlist(weekday_coef[3, 4]))), 
+              NA, NA, unname(c(1, unlist(hh_coef[3, 4:8]))),
+              NA, NA, unname(c(1, unlist(method_coef[3, 4]))), 
+              NA, NA, unname(c(1, unlist(student_coef[3, 3]))), 
+              NA, NA, unname(c(1, unlist(employment_coef[3, 3]))), NA)),
     .Names = c("mean", "lower", "upper"), 
     row.names = c(NA, -35L), # note 12 has to match up to length
     class = "data.frame")
@@ -113,7 +114,7 @@ forestplot(tabletext,
                             xlab  = gpar(cex=0.8)),
            boxsize = 0.4,
            new_page = TRUE,
-           align = c("l", "c", "c", "c", "c", "c","r"),
+           align = c("l", "l", "c", "c", "c", "c","r"),
            is.summary = c(TRUE, TRUE, TRUE, rep(FALSE, 4), TRUE, rep(FALSE, 3), TRUE, rep(FALSE, 3), 
                           TRUE, rep(FALSE, 7), TRUE, rep(FALSE, 3), TRUE, rep(FALSE, 3), TRUE, rep(FALSE, 4)),
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
@@ -122,8 +123,8 @@ forestplot(tabletext,
            lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"),
            graphwidth = unit(100, "mm"),
-           xticks = c(0.75, 1, 1.25, 1.5, 1.75, 2),
+           xticks = c(0.5, 0.75, 1, 1.25, 1.5, 1.75, 2),
            ci.vertices = TRUE,
            xlog = FALSE, 
-           clip = c(0.75, 2))
-
+           zero = 0.5,
+           clip = c(0.5, 2))

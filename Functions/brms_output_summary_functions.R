@@ -6,9 +6,9 @@ total_summarise_coefs <- function(model_output, CI_choice =  c(0.05, 0.95)) {
   CIs <- apply(exp(brms::fixef(model_output$fitting_output, summary = FALSE)), 2, quantile, CI_choice)
   overall <- rbind(CIs[1, ], mean, CIs[2, ])
   row.names(overall) <- c(paste0(CI_choice[1] * 100, "%"), "mean", paste0(CI_choice[2] * 100, "%"))
-  overall <- overall[, -1]
   return(as.data.frame(overall))
 }
+
 total_empirical_summaries <- function(data, variable, income_strata) {
   temp <- data %>%
     mutate(income = ifelse(income == "LIC/LMIC", "LIC_LMIC", income)) %>%
@@ -23,31 +23,44 @@ total_empirical_summaries <- function(data, variable, income_strata) {
   return(summary)
 }
 
-total_generate_forestplot_data <- function(data, income_strata) {
+total_generate_forestplot_data <- function(data, model, income_strata) {
   
   # Filtering Data to Remove Not Included During Model Fitting
   data <- data %>%
-    filter(!is.na(tot_all))
+    dplyr::filter(!is.na(tot_all))
   
   # Loading Data 
-  files <- list.files(path = "Outputs/")
-  hh <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0("total", "_", income_strata, "_hh_size"), files)]))
-  age <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0("total", "_", income_strata, "_age3cat"), files)]))
-  gender <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0("total", "_", income_strata, "_gender"), files)]))
-  student <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0("total", "_", income_strata, "_student"), files)]))
-  method <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0("total", "_", income_strata, "_method"), files)]))
-  weekday <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0("total", "_", income_strata, "_weekday"), files)]))
-  employment <- readRDS(file = paste0("Outputs/" , files[pmatch(paste0("total", "_", income_strata, "_employment"), files)]))
-  
+  if (model == "Univariate") {
+    files <- list.files(path = paste0("Outputs/Univariate/"))
+    age <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_age3cat"), files)]))
+    gender <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_gender"), files)]))
+    hh <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_hh_size"), files)]))
+    method <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_method"), files)]))
+    weekday <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_weekday"), files)]))
+    student <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_student"), files)]))
+    employment <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_employment"), files)]))
+  } else if (model == "Multivariate") {
+    files <- list.files(path = paste0("Outputs/Multivariate/"))
+    age <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_1"), files)]))
+    gender <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_1"), files)]))
+    hh <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_hh_size"), files)]))
+    method <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_method"), files)]))
+    weekday <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_weekday"), files)]))
+    student <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_part_age_gender_student"), files)]))
+    employment <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_part_age_gender_employment"), files)]))
+  } else {
+    return("Stop - either Univariate or Multivariate")
+  }
+
   # Extract Model Coefficients
-  age_coef <- total_summarise_coefs(age)
-  gender_coef <- total_summarise_coefs(gender)
-  weekday_coef <- total_summarise_coefs(weekday)
-  hh_coef <- total_summarise_coefs(hh)
-  method_coef <- total_summarise_coefs(method)
-  student_coef <- total_summarise_coefs(student)
-  employment_coef <- total_summarise_coefs(employment)
-  
+  age_coef <- total_summarise_coefs(age)[, c("age3cat2", "age3cat3")]
+  gender_coef <- total_summarise_coefs(gender)[, "gender", drop = FALSE]
+  weekday_coef <- total_summarise_coefs(weekday)[, "weekday1", drop = FALSE]
+  hh_coef <- total_summarise_coefs(hh)[, c("hh_size2", "hh_size3", "hh_size4", "hh_size5", "hh_size6P")]
+  method_coef <- total_summarise_coefs(method)[, "methodInterview", drop = FALSE]
+  student_coef <- total_summarise_coefs(student)[, "student1", drop = FALSE]
+  employment_coef <- total_summarise_coefs(employment)[, "employment1", drop = FALSE]
+
   # Generating Empirical Summaries
   age_emp <- total_empirical_summaries(data, "age3cat", income_strata)
   gender_emp <- total_empirical_summaries(data, "part_gender", income_strata)
@@ -572,7 +585,8 @@ location_generate_forestplot_data <- function(data, metric, income_strata) {
 
 
 # Generic Functions 
-gen_RRs <- function(summary) {
+gen_RRs <- function(summary, indices) {
+  summary <- as.matrix(summary[, indices])
   ref <- paste0("Ref RR = 1")
   storage <- c()
   for (i in 1:dim(summary)[2]) {
