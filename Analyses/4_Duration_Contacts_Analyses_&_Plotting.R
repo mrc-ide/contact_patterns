@@ -15,12 +15,15 @@ data <- read.csv("Data/combined_participant_lvl_all.csv") %>%
          tot_dur_recorded = tot_dur_under_1hr + tot_dur_1hr_plus)
 
 # Loading In Relevant Model Outputs
-duration_LIC_LMIC <- duration_generate_forestplot_data(data, "duration", "LIC_LMIC")
-duration_UMIC <- duration_generate_forestplot_data(data, "duration", "UMIC")
-duration_HIC <- duration_generate_forestplot_data(data, "duration", "HIC")
+model <- "Univariate"
+duration_LIC_LMIC <- duration_generate_forestplot_data(data, model, "LIC_LMIC")
+duration_UMIC <- duration_generate_forestplot_data(data, model, "UMIC")
+duration_HIC <- duration_generate_forestplot_data(data, model, "HIC")
 
 # Individual Forest Plots for Each
-forestplot(labeltext = duration_LIC_LMIC$tabletext, graph.pos = 4,
+pdf(file = paste0("Figures/duration_", model, ".pdf"), width = 9, height = 7.25, useDingbats = FALSE)
+forestplot(labeltext = duration_LIC_LMIC$tabletext, 
+           graph.pos = 4,
            duration_LIC_LMIC$forest_data_to_plot,
            hrzl_lines = list("3" = gpar(lwd=1)),
            txt_gp = fpTxtGp(label = gpar(cex=0.8), ticks = gpar(cex=0.7), xlab  = gpar(cex=0.8)),
@@ -33,7 +36,9 @@ forestplot(labeltext = duration_LIC_LMIC$tabletext, graph.pos = 4,
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
            colgap = unit(0, "mm"),  cex = 0.4, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0.75, 1, 1.25, 1.5, 1.75, 2), clip = c(0.75, 2), 
+           xticks = c(0, 0.5, 1, 1.5, 2), 
+           clip = c(0, 2), 
+           zero = 0, 
            ci.vertices = TRUE, xlog = FALSE)
 
 forestplot(labeltext = duration_UMIC$tabletext, graph.pos = 4,
@@ -49,7 +54,9 @@ forestplot(labeltext = duration_UMIC$tabletext, graph.pos = 4,
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
            colgap = unit(0, "mm"),  cex = 0.4, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0.75, 1, 1.25, 1.5, 1.75, 2), clip = c(0.75, 3), 
+           xticks = c(0, 0.5, 1, 1.5, 2), 
+           clip = c(0, 2), 
+           zero = 0, 
            ci.vertices = TRUE, xlog = FALSE)
 
 forestplot(labeltext = duration_HIC$tabletext, graph.pos = 4,
@@ -65,7 +72,9 @@ forestplot(labeltext = duration_HIC$tabletext, graph.pos = 4,
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
            colgap = unit(0, "mm"),  cex = 0.4, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0.75, 1, 1.25, 1.5, 1.75, 2), clip = c(0.75, 2), 
+           xticks = c(0, 0.5, 1, 1.5, 2), 
+           clip = c(0, 2), 
+           zero = 0, 
            ci.vertices = TRUE, xlog = FALSE)
 
 combined <- duration_LIC_LMIC$tabletext[, 1]
@@ -87,9 +96,11 @@ forestplot(combined, graph.pos = 2,
            colgap = unit(0, "mm"),  cex = 0.4, 
            boxsize = 0.2, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0.75, 1, 1.25, 1.5, 1.75, 2), clip = c(0.75, 2), 
+           xticks = c(0, 0.5, 1, 1.5, 2), 
+           clip = c(0, 2), 
+           zero = 0, 
            ci.vertices = FALSE, xlog = FALSE)
-
+dev.off()
 
 
 

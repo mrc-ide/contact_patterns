@@ -1,5 +1,5 @@
 # Loading Required Libraries
-library(forestplot); library(tidyverse); library(friendlyeval)
+library(forestplot); library(tidyverse); library(friendlyeval); library(cowplot)
 
 # Sourcing Required Function
 source("Functions/brms_output_summary_functions.R")
@@ -13,11 +13,13 @@ new_data <- read.csv("Data/combined_participant_lvl_all.csv") %>%
          method = ifelse(method == "diary", "Diary", method)) 
 
 # Loading In Relevant Model Outputs
-total_LIC_LMIC <- total_generate_forestplot_data(data = new_data, model = "Multivariate", income_strata = "LIC_LMIC")
-total_UMIC <- total_generate_forestplot_data(new_data, model = "Multivariate", "UMIC")
-total_HIC <- total_generate_forestplot_data(new_data, model = "Multivariate", "HIC")
+model <- "Multivariate"
+total_LIC_LMIC <- total_generate_forestplot_data(data = new_data, model = model, income_strata = "LIC_LMIC")
+total_UMIC <- total_generate_forestplot_data(new_data, model = model, "UMIC")
+total_HIC <- total_generate_forestplot_data(new_data, model = model, "HIC")
 
 # Individual Forest Plots for Each
+pdf(file = paste0("Figures/total_", model, ".pdf"), width = 7.7, height = 7.25, useDingbats = FALSE)
 forestplot(labeltext = total_LIC_LMIC$tabletext, graph.pos = 4,
            total_LIC_LMIC$forest_data_to_plot,
            hrzl_lines = list("3" = gpar(lwd=1)),
@@ -31,11 +33,13 @@ forestplot(labeltext = total_LIC_LMIC$tabletext, graph.pos = 4,
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
            colgap = unit(0, "mm"),  cex = 0.4, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0.75, 1, 1.25, 1.5), 
-           clip = c(0.75, 1.5), 
-           zero = 0.75,
+           xticks = c(0.5, 1, 1.5, 2), 
+           clip = c(0.5, 2), 
+           zero = 0.5,
            ci.vertices = TRUE, xlog = FALSE)
+#dev.off()
 
+#pdf(file = paste0("Figures/total_UMIC_", model, ".pdf"), width = 7.7, height = 7.25, useDingbats = FALSE)
 forestplot(labeltext = total_UMIC$tabletext, graph.pos = 4,
            total_UMIC$forest_data_to_plot,
            hrzl_lines = list("3" = gpar(lwd=1)),
@@ -49,11 +53,13 @@ forestplot(labeltext = total_UMIC$tabletext, graph.pos = 4,
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
            colgap = unit(0, "mm"),  cex = 0.4, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0.65, 1, 1.25, 1.5, 2), 
-           clip = c(0.75, 2), 
-           zero = 0.65,
+           xticks = c(0.5, 1, 1.5, 2), 
+           clip = c(0.5, 2), 
+           zero = 0.5,
            ci.vertices = TRUE, xlog = FALSE)
+#dev.off()
 
+#pdf(file = paste0("Figures/total_HIC_", model, ".pdf"), width = 7.7, height = 7.25, useDingbats = FALSE)
 forestplot(labeltext = total_HIC$tabletext, graph.pos = 4,
            total_HIC$forest_data_to_plot,
            hrzl_lines = list("3" = gpar(lwd=1)),
@@ -67,11 +73,13 @@ forestplot(labeltext = total_HIC$tabletext, graph.pos = 4,
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
            colgap = unit(0, "mm"),  cex = 0.4, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0.5, 0.75, 1, 1.25, 1.5, 1.75, 2), 
-           clip = c(0.75, 2), 
+           xticks = c(0.5, 1, 1.5, 2), 
+           clip = c(0.5, 2), 
            zero = 0.5,
            ci.vertices = TRUE, xlog = FALSE)
+#dev.off()
 
+#pdf(file = paste0("Figures/total_All_", model, ".pdf"), width = 7.7, height = 7.25, useDingbats = FALSE)
 combined <- total_LIC_LMIC$tabletext[, 1]
 forestplot(combined, graph.pos = 2,
            mean  = cbind(total_LIC_LMIC$forest_data_to_plot[, 1], total_UMIC$forest_data_to_plot[, 1], total_HIC$forest_data_to_plot[, 1]),
@@ -91,9 +99,11 @@ forestplot(combined, graph.pos = 2,
            colgap = unit(0, "mm"),  cex = 0.4, 
            boxsize = 0.2, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
+           xticks = c(0.5, 1, 1.5, 2), 
+           clip = c(0.5, 2), 
            zero = 0.5,
-           xticks = c(0.5, 0.75, 1, 1.25, 1.5, 1.75, 2), clip = c(0.5, 2), 
            ci.vertices = FALSE, xlog = FALSE)
+dev.off()
 
 
 

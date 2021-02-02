@@ -14,11 +14,13 @@ data <- read.csv("Data/combined_participant_lvl_all.csv") %>%
          tot_phys_recorded = tot_phys + tot_nonphys)
 
 # Loading In Relevant Model Outputs
-physical_LIC_LMIC <- physical_generate_forestplot_data(data, "physical", "LIC_LMIC")
-physical_UMIC <- physical_generate_forestplot_data(data, "physical", "UMIC")
-physical_HIC <- physical_generate_forestplot_data(data, "physical", "HIC")
+model <- "Univariate"
+physical_LIC_LMIC <- physical_generate_forestplot_data(data, model, "LIC_LMIC")
+physical_UMIC <- physical_generate_forestplot_data(data, model, "UMIC")
+physical_HIC <- physical_generate_forestplot_data(data, model, "HIC")
 
 # Individual Forest Plots for Each
+pdf(file = paste0("Figures/physical_", model, ".pdf"), width = 7.7, height = 7.25, useDingbats = FALSE)
 forestplot(labeltext = physical_LIC_LMIC$tabletext, graph.pos = 4,
            physical_LIC_LMIC$forest_data_to_plot,
            hrzl_lines = list("3" = gpar(lwd=1)),
@@ -32,7 +34,9 @@ forestplot(labeltext = physical_LIC_LMIC$tabletext, graph.pos = 4,
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
            colgap = unit(0, "mm"),  cex = 0.4, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0.75, 1, 1.25, 1.5, 1.75, 2), clip = c(0.75, 2), 
+           xticks = c(0, 0.5, 1, 1.5, 2), 
+           clip = c(0, 2),
+           zero = 0,
            ci.vertices = TRUE, xlog = FALSE)
 
 forestplot(labeltext = physical_UMIC$tabletext, graph.pos = 4,
@@ -48,7 +52,9 @@ forestplot(labeltext = physical_UMIC$tabletext, graph.pos = 4,
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
            colgap = unit(0, "mm"),  cex = 0.4, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0.75, 1, 1.25, 1.5, 1.75, 2), clip = c(0.75, 3), 
+           xticks = c(0, 0.5, 1, 1.5, 2), 
+           clip = c(0, 2),
+           zero = 0,
            ci.vertices = TRUE, xlog = FALSE)
 
 forestplot(labeltext = physical_HIC$tabletext, graph.pos = 4,
@@ -64,7 +70,9 @@ forestplot(labeltext = physical_HIC$tabletext, graph.pos = 4,
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
            colgap = unit(0, "mm"),  cex = 0.4, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0.75, 1, 1.25, 1.5, 1.75, 2), clip = c(0.75, 2), 
+           xticks = c(0, 0.5, 1, 1.5, 2), 
+           clip = c(0, 2),
+           zero = 0,
            ci.vertices = TRUE, xlog = FALSE)
 
 combined <- physical_LIC_LMIC$tabletext[, 1]
@@ -86,10 +94,11 @@ forestplot(combined, graph.pos = 2,
            colgap = unit(0, "mm"),  cex = 0.4, 
            boxsize = 0.2, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0.75, 1, 1.25, 1.5, 1.75, 2), clip = c(0.75, 2), 
+           xticks = c(0, 0.5, 1, 1.5, 2), 
+           clip = c(0, 2),
+           zero = 0,
            ci.vertices = FALSE, xlog = FALSE)
-
-
+dev.off()
 
 
 
