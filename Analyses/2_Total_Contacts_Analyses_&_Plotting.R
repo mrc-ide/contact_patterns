@@ -1,7 +1,8 @@
-# Loading Required Libraries
-library(forestplot); library(tidyverse); library(friendlyeval); library(cowplot)
+# Loading Required Libraries - devtools::install_github("milesmcbain/friendlyeval")
+library(forestplot); library(tidyverse); library(cowplot); library(friendlyeval)
 
 # Sourcing Required Function
+#setwd("C:/Users/am15617/Imperial College London/ncov - data contact surveys/contact_patterns")
 source("Functions/brms_output_summary_functions.R")
 
 # Loading In Data

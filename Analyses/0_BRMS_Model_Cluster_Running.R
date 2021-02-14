@@ -70,12 +70,29 @@ run$task_list()
 run$task_times()
 
 # MCMC Parameters
-#MCMC_parameters <- list(iterations = 10, burnin = 5, chains = 2, cores = 2)
-#duration_contact(MCMC_parameters, "age3cat", "UMIC", TRUE, data)
-#physical_contact(MCMC_parameters, "weekday", "LIC/LMIC", TRUE, data)
-# total_contacts(MCMC_parameters, "tot_all", "age3cat", "HIC", TRUE, data)
-# total_contacts(MCMC_parameters, "tot_all", "age3cat", "LIC/LMIC", TRUE, data)
 MCMC_parameters <- list(iterations = 10000, burnin = 3000, chains = 2, cores = 2)
+
+# Extra Runs of Method Without the Random Study Effect
+uni_total_LIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "method", "LIC/LMIC", FALSE, data))
+mv_total_LIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", c("age3cat", "gender", "method"), "LIC/LMIC", FALSE, data))
+uni_total_UMIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "method", "UMIC", FALSE, data))
+mv_total_UMIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", c("age3cat", "gender", "method"), "UMIC", FALSE, data))
+uni_total_HIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "method", "HIC", FALSE, data))
+mv_total_HIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", c("age3cat", "gender", "method"), "HIC", FALSE, data))
+
+uni_physical_LIC_method <- run$enqueue(physical_contact(MCMC_parameters, "method", "LIC/LMIC", FALSE, data))
+mv_physical_LIC_method <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "method"), "LIC/LMIC", FALSE, data))
+uni_physical_UMIC_method <- run$enqueue(physical_contact(MCMC_parameters, "method", "UMIC", FALSE, data))
+mv_physical_UMIC_method <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "method"), "UMIC", FALSE, data))
+uni_physical_HIC_method <- run$enqueue(physical_contact(MCMC_parameters, "method", "HIC", FALSE, data))
+mv_physical_HIC_method <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "method"), "HIC", FALSE, data))
+
+uni_duration_LIC_method <- run$enqueue(duration_contact(MCMC_parameters, "method", "LIC/LMIC", FALSE, data))
+mv_duration_LIC_method <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "method"), "LIC/LMIC", FALSE, data))
+uni_duration_UMIC_method <- run$enqueue(duration_contact(MCMC_parameters, "method", "UMIC", FALSE, data))
+mv_duration_UMIC_method <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "method"), "UMIC", FALSE, data))
+uni_duration_HIC_method <- run$enqueue(duration_contact(MCMC_parameters, "method", "HIC", FALSE, data))
+mv_duration_HIC_method <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "method"), "HIC", FALSE, data))
 
 # Fitting Total Contacts Made 
 uni_total_LIC_age <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "age3cat", "LIC/LMIC", TRUE, data))
