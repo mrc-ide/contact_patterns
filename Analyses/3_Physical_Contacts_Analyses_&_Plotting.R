@@ -14,7 +14,7 @@ data <- read.csv("Data/combined_participant_lvl_all.csv") %>%
          tot_phys_recorded = tot_phys + tot_nonphys)
 
 # Loading In Relevant Model Outputs
-model <- "Univariate"
+model <- "Multivariate"
 physical_LIC_LMIC <- physical_generate_forestplot_data(data, model, "LIC_LMIC")
 physical_UMIC <- physical_generate_forestplot_data(data, model, "UMIC")
 physical_HIC <- physical_generate_forestplot_data(data, model, "HIC")

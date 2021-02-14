@@ -15,7 +15,7 @@ data <- read.csv("Data/combined_participant_lvl_all.csv") %>%
          tot_dur_recorded = tot_dur_under_1hr + tot_dur_1hr_plus)
 
 # Loading In Relevant Model Outputs
-model <- "Univariate"
+model <- "Multivariate"
 duration_LIC_LMIC <- duration_generate_forestplot_data(data, model, "LIC_LMIC")
 duration_UMIC <- duration_generate_forestplot_data(data, model, "UMIC")
 duration_HIC <- duration_generate_forestplot_data(data, model, "HIC")

@@ -80,6 +80,8 @@ mv_total_UMIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", c
 uni_total_HIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "method", "HIC", FALSE, data))
 mv_total_HIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", c("age3cat", "gender", "method"), "HIC", FALSE, data))
 
+table(run$task_status())
+
 uni_physical_LIC_method <- run$enqueue(physical_contact(MCMC_parameters, "method", "LIC/LMIC", FALSE, data))
 mv_physical_LIC_method <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "method"), "LIC/LMIC", FALSE, data))
 uni_physical_UMIC_method <- run$enqueue(physical_contact(MCMC_parameters, "method", "UMIC", FALSE, data))
@@ -87,12 +89,35 @@ mv_physical_UMIC_method <- run$enqueue(physical_contact(MCMC_parameters, c("age3
 uni_physical_HIC_method <- run$enqueue(physical_contact(MCMC_parameters, "method", "HIC", FALSE, data))
 mv_physical_HIC_method <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "method"), "HIC", FALSE, data))
 
+table(run$task_status())
+
 uni_duration_LIC_method <- run$enqueue(duration_contact(MCMC_parameters, "method", "LIC/LMIC", FALSE, data))
 mv_duration_LIC_method <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "method"), "LIC/LMIC", FALSE, data))
 uni_duration_UMIC_method <- run$enqueue(duration_contact(MCMC_parameters, "method", "UMIC", FALSE, data))
 mv_duration_UMIC_method <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "method"), "UMIC", FALSE, data))
 uni_duration_HIC_method <- run$enqueue(duration_contact(MCMC_parameters, "method", "HIC", FALSE, data))
 mv_duration_HIC_method <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "method"), "HIC", FALSE, data))
+
+table(run$task_status())
+
+uni_total_LIC_method$status()
+mv_total_LIC_method$status()
+uni_total_UMIC_method$status()
+mv_total_UMIC_method$status()
+uni_total_HIC_method$status()
+mv_total_HIC_method$status()
+uni_physical_LIC_method$status()
+mv_physical_LIC_method$status()
+uni_physical_UMIC_method$status()
+mv_physical_UMIC_method$status()
+uni_physical_HIC_method$status() 
+mv_physical_HIC_method$status()
+uni_duration_LIC_method$status() 
+mv_duration_LIC_method$status()
+uni_duration_UMIC_method$status()
+mv_duration_UMIC_method$status() 
+uni_duration_HIC_method$status() 
+mv_duration_HIC_method$status()
 
 # Fitting Total Contacts Made 
 uni_total_LIC_age <- run$enqueue(total_contacts(MCMC_parameters, "tot_all", "age3cat", "LIC/LMIC", TRUE, data))
