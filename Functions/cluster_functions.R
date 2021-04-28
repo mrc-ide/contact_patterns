@@ -1,3 +1,9 @@
+# MCMC_parameters
+# outcome_variable <- "tot_all"
+# model_covariates <- "method"
+# income_strata_subset <- "LIC/LMIC"
+# random_study_effect <- TRUE
+
 # Function to Run Negative Binomial Random Effects Model for Total Contacts Made
 total_contacts <- function(MCMC_parameters, outcome_variable, model_covariates, income_strata_subset = NULL, 
                            random_study_effect = TRUE, data, adapt_delta = 0.9) {
