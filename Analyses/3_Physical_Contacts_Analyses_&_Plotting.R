@@ -5,17 +5,30 @@ library(forestplot); library(tidyverse); library(friendlyeval)
 source("Functions/brms_output_summary_functions.R")
 
 # Loading In Data
-data <- read.csv("Data/combined_participant_lvl_all.csv") %>%
-  mutate(hh_size = case_when(hh_size == 1 ~ "1", hh_size == 2 ~ "2",
+data <- read.csv("Data/combined_participant_lvl_final.csv") %>%
+  mutate(age3cat = as.factor(age3cat),
+         hh_size = ifelse(hh_size == "6+", 6, hh_size),
+         hh_size = as.numeric(hh_size),
+         hh_size = case_when(hh_size == 1 ~ "1", hh_size == 2 ~ "2",
                              hh_size == 3 ~ "3", hh_size == 4 ~ "4", 
                              hh_size == 5 ~ "5", hh_size >= 6 ~ "6+", TRUE ~ NA_character_),
-         hh_size = factor(hh_size),
+         hh_size = as.factor(hh_size),
+         tot_contacts = as.numeric(tot_contacts),
+         tot_contacts_no_add = as.numeric(tot_contacts_no_add),
+         gender = case_when(part_gender == "Female" ~ 0, part_gender == "Male" ~ 1, TRUE ~ NA_real_),
+         employment = as.factor(employment),
+         student = as.factor(student),
+         study = as.factor(study),
+         income = factor(income, levels = c("LIC/LMIC", "UMIC", "HIC")),
+         weekday = as.factor(weekday),
          method = ifelse(method == "diary", "Diary", method),
-         tot_phys_recorded = tot_phys + tot_nonphys)
+         method = ifelse(method == "Online", "Interview", method)) %>%
+  mutate(tot_phys_recorded = tot_phys + tot_nonphys) %>%
+  mutate(tot_phys_recorded = ifelse(tot_phys_recorded == 0, NA, tot_phys_recorded))
 
 # Loading In Relevant Model Outputs
 model <- "Multivariate"
-physical_LIC_LMIC <- physical_generate_forestplot_data(data, model, "LIC_LMIC")
+physical_LIC_LMIC <- physical_generate_forestplot_data(data = data, model = model, income_strata = "LIC_LMIC")
 physical_UMIC <- physical_generate_forestplot_data(data, model, "UMIC")
 physical_HIC <- physical_generate_forestplot_data(data, model, "HIC")
 
