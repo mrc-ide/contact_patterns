@@ -114,7 +114,7 @@ total_generate_forestplot_data <- function(data, model, income_strata) {
   employment_emp <- empirical_summaries(data, "total", "employment", income_strata)
   
   # Forest Plotting
-  age_text <- c("", "Study", "Age Group", "0-15yrs", "15-49yrs", "49+yrs")
+  age_text <- c("", "Study", "Age Group","0 to <15yrs", "15 to <65yrs", "65+yrs")
   gender_text <- c(NA, "Gender", "Female", "Male")
   weekday_text <- c(NA, "Weekday", "No", "Yes")
   hh_text <- c(NA, "Household Size", "1", "2", "3", "4", "5", "6+")
@@ -230,7 +230,7 @@ physical_generate_forestplot_data <- function(data, model, income_strata) {
   employment_emp <- empirical_summaries(data, "physical", "employment", income_strata)
   
   # Forest Plotting
-  age_text <- c("", "Study", "Age Group", "0-15yrs", "15-49yrs", "49+yrs")
+  age_text <- c("", "Study", "Age Group", "0 to <15yrs", "15 to <65yrs", "65+yrs")
   gender_text <- c(NA, "Gender", "Female", "Male")
   weekday_text <- c(NA, "Weekday", "No", "Yes")
   hh_text <- c(NA, "Household Size", "1", "2", "3", "4", "5", "6+")
@@ -346,7 +346,7 @@ duration_generate_forestplot_data <- function(data, model, income_strata) {
   employment_emp <- empirical_summaries(data, "duration", "employment", income_strata)
   
   # Forest Plotting
-  age_text <- c("", "Study", "Age Group", "0-15yrs", "15-49yrs", "49+yrs")
+  age_text <- c("", "Study", "Age Group", "0 to <15yrs", "15 to <65yrs", "65+yrs")
   gender_text <- c(NA, "Gender", "Female", "Male")
   weekday_text <- c(NA, "Weekday", "No", "Yes")
   hh_text <- c(NA, "Household Size", "1", "2", "3", "4", "5", "6+")
