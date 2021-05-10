@@ -2,7 +2,6 @@
 library(forestplot); library(tidyverse); library(cowplot); library(friendlyeval)
 
 # Sourcing Required Function
-#setwd("C:/Users/am15617/Imperial College London/ncov - data contact surveys/contact_patterns")
 source("Functions/brms_output_summary_functions.R")
 
 # Loading In Data
@@ -49,7 +48,9 @@ forestplot(labeltext = total_LIC_LMIC$tabletext, graph.pos = 4,
            xticks = c(0.5, 1, 1.5, 2), 
            clip = c(0.5, 2), 
            zero = 0.5,
-           ci.vertices = TRUE, xlog = FALSE)
+           ci.vertices = TRUE, xlog = FALSE,
+           grid = structure(c(1), 
+           gp = gpar(lwd=2,lty = 2, col = "#CCCCFF")))
 #dev.off()
 
 #pdf(file = paste0("Figures/total_UMIC_", model, ".pdf"), width = 7.7, height = 7.25, useDingbats = FALSE)
@@ -66,10 +67,12 @@ forestplot(labeltext = total_UMIC$tabletext, graph.pos = 4,
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
            colgap = unit(0, "mm"),  cex = 0.4, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0.5, 1, 1.5, 2), 
-           clip = c(0.5, 2), 
+           xticks = c(0.5, 1, 1.5, 2,2.5,3), 
+           clip = c(0.5, 3), 
            zero = 0.5,
-           ci.vertices = TRUE, xlog = FALSE)
+           ci.vertices = TRUE, xlog = FALSE,
+           grid = structure(c(1), 
+           gp = gpar(lwd=2,lty = 2, col = "#CCCCFF")))
 #dev.off()
 
 #pdf(file = paste0("Figures/total_HIC_", model, ".pdf"), width = 7.7, height = 7.25, useDingbats = FALSE)
@@ -89,7 +92,9 @@ forestplot(labeltext = total_HIC$tabletext, graph.pos = 4,
            xticks = c(0.5, 1, 1.5, 2), 
            clip = c(0.5, 2), 
            zero = 0.5,
-           ci.vertices = TRUE, xlog = FALSE)
+           ci.vertices = TRUE, xlog = FALSE,
+           grid = structure(c(1), 
+           gp = gpar(lwd=2,lty = 2, col = "#CCCCFF")))
 #dev.off()
 
 #pdf(file = paste0("Figures/total_All_", model, ".pdf"), width = 7.7, height = 7.25, useDingbats = FALSE)
@@ -112,10 +117,12 @@ forestplot(combined, graph.pos = 2,
            colgap = unit(0, "mm"),  cex = 0.4, 
            boxsize = 0.2, lineheight = unit(0.5, "cm"),
            xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0.5, 1, 1.5, 2), 
-           clip = c(0.5, 2), 
+           xticks = c(0.5, 1, 1.5, 2,2.5,3), 
+           clip = c(0.5, 3), 
            zero = 0.5,
-           ci.vertices = FALSE, xlog = FALSE)
+           ci.vertices = FALSE, xlog = FALSE,
+           grid = structure(c(1), 
+          gp = gpar(lwd=2,lty = 2, col = "#CCCCFF")))
 dev.off()
 
 

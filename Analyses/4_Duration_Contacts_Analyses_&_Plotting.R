@@ -47,11 +47,13 @@ forestplot(labeltext = duration_LIC_LMIC$tabletext,
                           TRUE, rep(FALSE, 3), TRUE, rep(FALSE, 4)),
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
            colgap = unit(0, "mm"),  cex = 0.4, lineheight = unit(0.5, "cm"),
-           xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0, 0.5, 1, 1.5, 2), 
-           clip = c(0, 2), 
+           xlab = c("Odds Ratio"), graphwidth = unit(100, "mm"),
+           xticks = c(0, 0.5, 1, 1.5, 2,2.5,3,3.5), 
+           clip = c(0, 3.5), 
            zero = 0, 
-           ci.vertices = TRUE, xlog = FALSE)
+           ci.vertices = TRUE, xlog = FALSE,
+           grid = structure(c(1), 
+           gp = gpar(lwd=2,lty = 2, col = "#CCCCFF")))
 
 forestplot(labeltext = duration_UMIC$tabletext, graph.pos = 4,
            duration_UMIC$forest_data_to_plot,
@@ -65,11 +67,13 @@ forestplot(labeltext = duration_UMIC$tabletext, graph.pos = 4,
                           TRUE, rep(FALSE, 3), TRUE, rep(FALSE, 4)),
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
            colgap = unit(0, "mm"),  cex = 0.4, lineheight = unit(0.5, "cm"),
-           xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0, 0.5, 1, 1.5, 2), 
-           clip = c(0, 2), 
+           xlab = c("Odds Ratio"), graphwidth = unit(100, "mm"),
+           xticks = c(0, 0.5, 1, 1.5, 2,2.5,3), 
+           clip = c(0,3), 
            zero = 0, 
-           ci.vertices = TRUE, xlog = FALSE)
+           ci.vertices = TRUE, xlog = FALSE,
+           grid = structure(c(1), 
+           gp = gpar(lwd=2,lty = 2, col = "#CCCCFF")))
 
 forestplot(labeltext = duration_HIC$tabletext, graph.pos = 4,
            duration_HIC$forest_data_to_plot,
@@ -83,11 +87,13 @@ forestplot(labeltext = duration_HIC$tabletext, graph.pos = 4,
                           TRUE, rep(FALSE, 3), TRUE, rep(FALSE, 4)),
            col = fpColors(box = "#003f5c", line = "#003f5c", summary = "#003f5c", hrz_lines = "#444444"), 
            colgap = unit(0, "mm"),  cex = 0.4, lineheight = unit(0.5, "cm"),
-           xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
+           xlab = c("Odds Ratio"), graphwidth = unit(100, "mm"),
            xticks = c(0, 0.5, 1, 1.5, 2), 
            clip = c(0, 2), 
            zero = 0, 
-           ci.vertices = TRUE, xlog = FALSE)
+           ci.vertices = TRUE, xlog = FALSE,
+           grid = structure(c(1), 
+           gp = gpar(lwd=2,lty = 2, col = "#CCCCFF")))
 
 combined <- duration_LIC_LMIC$tabletext[, 1]
 forestplot(combined, graph.pos = 2,
@@ -107,11 +113,13 @@ forestplot(combined, graph.pos = 2,
                           summary = "#003f5c"), 
            colgap = unit(0, "mm"),  cex = 0.4, 
            boxsize = 0.2, lineheight = unit(0.5, "cm"),
-           xlab = c("Contact Rate Ratio"), graphwidth = unit(100, "mm"),
-           xticks = c(0, 0.5, 1, 1.5, 2), 
-           clip = c(0, 2), 
+           xlab = c("Odds Ratio"), graphwidth = unit(100, "mm"),
+           xticks = c(0, 0.5, 1, 1.5, 2,2.5,3,3.5), 
+           clip = c(0,3.5), 
            zero = 0, 
-           ci.vertices = FALSE, xlog = FALSE)
+           ci.vertices = FALSE, xlog = FALSE,
+           grid = structure(c(1), 
+           gp = gpar(lwd=2,lty = 2, col = "#CCCCFF")))
 dev.off()
 
 
