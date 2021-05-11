@@ -27,7 +27,7 @@ data <- read.csv("Data/combined_participant_lvl_final.csv") %>%
   mutate(tot_dur_recorded = ifelse(tot_dur_recorded == 0, NA, tot_dur_recorded))
 
 # Loading In Relevant Model Outputs
-model <- "Multivariate"
+model <- "Multivariable"
 duration_LIC_LMIC <- duration_generate_forestplot_data(data = data, model = model, income_strata = "LIC_LMIC")
 duration_UMIC <- duration_generate_forestplot_data(data, model, "UMIC")
 duration_HIC <- duration_generate_forestplot_data(data, model, "HIC")

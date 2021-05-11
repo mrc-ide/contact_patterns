@@ -27,7 +27,7 @@ data <- read.csv("Data/combined_participant_lvl_final.csv") %>%
   mutate(tot_phys_recorded = ifelse(tot_phys_recorded == 0, NA, tot_phys_recorded))
 
 # Loading In Relevant Model Outputs
-model <- "Multivariate"
+model <- "Multivariable"
 physical_LIC_LMIC <- physical_generate_forestplot_data(data = data, model = model, income_strata = "LIC_LMIC")
 physical_UMIC <- physical_generate_forestplot_data(data, model, "UMIC")
 physical_HIC <- physical_generate_forestplot_data(data, model, "HIC")

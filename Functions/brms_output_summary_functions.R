@@ -73,26 +73,26 @@ total_generate_forestplot_data <- function(data, model, income_strata) {
     dplyr::filter(!is.na(tot_contacts))
   
   # Loading Data 
-  if (model == "Univariate") {
-    files <- list.files(path = paste0("Outputs/Univariate/"))
-    age <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_age3cat"), files)]))
-    gender <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_gender"), files)]))
-    hh <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_hh_size"), files)]))
-    method <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_method"), files)]))
-    weekday <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_weekday"), files)]))
-    student <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_student"), files)]))
-    employment <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("total", "_", income_strata, "_employment"), files)]))
-  } else if (model == "Multivariate") {
-    files <- list.files(path = paste0("Outputs/Multivariate/"))
-    age <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_1"), files)]))
-    gender <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_1"), files)]))
-    hh <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_hh_size"), files)]))
-    method <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_method"), files)]))
-    weekday <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_weekday"), files)]))
-    student <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_part_age_gender_student"), files)]))
-    employment <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("total", "_", income_strata, "_part_age_gender_employment"), files)]))
+  if (model == "Univariable") {
+    files <- list.files(path = paste0("Outputs/Univariable/"))
+    age <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("total", "_", income_strata, "_age3cat"), files)]))
+    gender <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("total", "_", income_strata, "_gender"), files)]))
+    hh <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("total", "_", income_strata, "_hh_size"), files)]))
+    method <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("total", "_", income_strata, "_method"), files)]))
+    weekday <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("total", "_", income_strata, "_weekday"), files)]))
+    student <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("total", "_", income_strata, "_student"), files)]))
+    employment <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("total", "_", income_strata, "_employment"), files)]))
+  } else if (model == "Multivariable") {
+    files <- list.files(path = paste0("Outputs/Multivariable/"))
+    age <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_1"), files)]))
+    gender <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_1"), files)]))
+    hh <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_hh_size"), files)]))
+    method <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_method"), files)]))
+    weekday <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("total", "_", income_strata, "_age3cat_gender_weekday"), files)]))
+    student <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("total", "_", income_strata, "_part_age_gender_student"), files)]))
+    employment <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("total", "_", income_strata, "_part_age_gender_employment"), files)]))
   } else {
-    return("Stop - either Univariate or Multivariate")
+    return("Stop - either Univariable or Multivariable")
   }
 
   # Extract Model Coefficients
@@ -189,26 +189,26 @@ physical_generate_forestplot_data <- function(data, model, income_strata) {
     filter(!is.na(tot_phys) & !is.na(tot_phys_recorded))
   
   # Loading Data 
-  if (model == "Univariate") {
-    files <- list.files(path = paste0("Outputs/Univariate/"))
-    age <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("physical", "_", income_strata, "_age3cat"), files)]))
-    gender <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("physical", "_", income_strata, "_gender"), files)]))
-    hh <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("physical", "_", income_strata, "_hh_size"), files)]))
-    method <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("physical", "_", income_strata, "_method"), files)]))
-    weekday <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("physical", "_", income_strata, "_weekday"), files)]))
-    student <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("physical", "_", income_strata, "_student"), files)]))
-    employment <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("physical", "_", income_strata, "_employment"), files)]))
-  } else if (model == "Multivariate") {
-    files <- list.files(path = paste0("Outputs/Multivariate/"))
-    age <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("physical", "_", income_strata, "_age3cat_gender_1"), files)]))
-    gender <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("physical", "_", income_strata, "_age3cat_gender_1"), files)]))
-    hh <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("physical", "_", income_strata, "_age3cat_gender_hh_size"), files)]))
-    method <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("physical", "_", income_strata, "_age3cat_gender_method"), files)]))
-    weekday <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("physical", "_", income_strata, "_age3cat_gender_weekday"), files)]))
-    student <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("physical", "_", income_strata, "_part_age_gender_student"), files)]))
-    employment <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("physical", "_", income_strata, "_part_age_gender_employment"), files)]))
+  if (model == "Univariable") {
+    files <- list.files(path = paste0("Outputs/Univariable/"))
+    age <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("physical", "_", income_strata, "_age3cat"), files)]))
+    gender <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("physical", "_", income_strata, "_gender"), files)]))
+    hh <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("physical", "_", income_strata, "_hh_size"), files)]))
+    method <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("physical", "_", income_strata, "_method"), files)]))
+    weekday <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("physical", "_", income_strata, "_weekday"), files)]))
+    student <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("physical", "_", income_strata, "_student"), files)]))
+    employment <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("physical", "_", income_strata, "_employment"), files)]))
+  } else if (model == "Multivariable") {
+    files <- list.files(path = paste0("Outputs/Multivariable/"))
+    age <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("physical", "_", income_strata, "_age3cat_gender_1"), files)]))
+    gender <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("physical", "_", income_strata, "_age3cat_gender_1"), files)]))
+    hh <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("physical", "_", income_strata, "_age3cat_gender_hh_size"), files)]))
+    method <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("physical", "_", income_strata, "_age3cat_gender_method"), files)]))
+    weekday <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("physical", "_", income_strata, "_age3cat_gender_weekday"), files)]))
+    student <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("physical", "_", income_strata, "_part_age_gender_student"), files)]))
+    employment <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("physical", "_", income_strata, "_part_age_gender_employment"), files)]))
   } else {
-    return("Stop - either Univariate or Multivariate")
+    return("Stop - either Univariable or Multivariable")
   }
   
   # Extract Model Coefficients
@@ -305,26 +305,26 @@ duration_generate_forestplot_data <- function(data, model, income_strata) {
     filter(!is.na(tot_dur_under_1hr) & !is.na(tot_dur_recorded))
   
   # Loading Data 
-  if (model == "Univariate") {
-    files <- list.files(path = paste0("Outputs/Univariate/"))
-    age <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("duration", "_", income_strata, "_age3cat"), files)]))
-    gender <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("duration", "_", income_strata, "_gender"), files)]))
-    hh <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("duration", "_", income_strata, "_hh_size"), files)]))
-    method <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("duration", "_", income_strata, "_method"), files)]))
-    weekday <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("duration", "_", income_strata, "_weekday"), files)]))
-    student <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("duration", "_", income_strata, "_student"), files)]))
-    employment <- readRDS(file = paste0("Outputs/Univariate/", files[pmatch(paste0("duration", "_", income_strata, "_employment"), files)]))
-  } else if (model == "Multivariate") {
-    files <- list.files(path = paste0("Outputs/Multivariate/"))
-    age <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("duration", "_", income_strata, "_age3cat_gender_1"), files)]))
-    gender <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("duration", "_", income_strata, "_age3cat_gender_1"), files)]))
-    hh <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("duration", "_", income_strata, "_age3cat_gender_hh_size"), files)]))
-    method <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("duration", "_", income_strata, "_age3cat_gender_method"), files)]))
-    weekday <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("duration", "_", income_strata, "_age3cat_gender_weekday"), files)]))
-    student <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("duration", "_", income_strata, "_part_age_gender_student"), files)]))
-    employment <- readRDS(file = paste0("Outputs/Multivariate/", files[pmatch(paste0("duration", "_", income_strata, "_part_age_gender_employment"), files)]))
+  if (model == "Univariable") {
+    files <- list.files(path = paste0("Outputs/Univariable/"))
+    age <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("duration", "_", income_strata, "_age3cat"), files)]))
+    gender <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("duration", "_", income_strata, "_gender"), files)]))
+    hh <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("duration", "_", income_strata, "_hh_size"), files)]))
+    method <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("duration", "_", income_strata, "_method"), files)]))
+    weekday <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("duration", "_", income_strata, "_weekday"), files)]))
+    student <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("duration", "_", income_strata, "_student"), files)]))
+    employment <- readRDS(file = paste0("Outputs/Univariable/", files[pmatch(paste0("duration", "_", income_strata, "_employment"), files)]))
+  } else if (model == "Multivariable") {
+    files <- list.files(path = paste0("Outputs/Multivariable/"))
+    age <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("duration", "_", income_strata, "_age3cat_gender_1"), files)]))
+    gender <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("duration", "_", income_strata, "_age3cat_gender_1"), files)]))
+    hh <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("duration", "_", income_strata, "_age3cat_gender_hh_size"), files)]))
+    method <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("duration", "_", income_strata, "_age3cat_gender_method"), files)]))
+    weekday <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("duration", "_", income_strata, "_age3cat_gender_weekday"), files)]))
+    student <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("duration", "_", income_strata, "_part_age_gender_student"), files)]))
+    employment <- readRDS(file = paste0("Outputs/Multivariable/", files[pmatch(paste0("duration", "_", income_strata, "_part_age_gender_employment"), files)]))
   } else {
-    return("Stop - either Univariate or Multivariate")
+    return("Stop - either Univariable or Multivariable")
   }
   
   # Extract Model Coefficients

@@ -25,7 +25,7 @@ new_data <- read.csv("Data/combined_participant_lvl_final.csv") %>%
          method = ifelse(method == "Online", "Interview", method))
 
 # Loading In Relevant Model Outputs
-model <- "Multivariate"
+model <- "Multivariable"
 total_LIC_LMIC <- total_generate_forestplot_data(data = new_data, model = model, income_strata = "LIC_LMIC")
 total_UMIC <- total_generate_forestplot_data(new_data, model = model, "UMIC")
 total_HIC <- total_generate_forestplot_data(new_data, model = model, "HIC")
