@@ -92,3 +92,8 @@ ggplot(overall) +
   geom_errorbarh(aes(x = all_contacts_mean, y = not_all_contacts_mean, 
                     xmin = `all_contacts_X5.`, xmax = `all_contacts_X95.`)) +
   facet_wrap(. ~ income, scales = "free")
+
+x <- overall %>%
+  select(income, all_contacts_mean, not_all_contacts_mean) %>%
+  group_by(income) %>%
+  summarise(correlation = cor(all_contacts_mean, not_all_contacts_mean))
