@@ -1,6 +1,15 @@
 # Function to Run Negative Binomial Random Effects Model for Total Contacts Made
+MCMC_parameters <- list(iterations = 100, burnin = 30, chains = 1, cores = 1)
+outcome_variable <- "tot_contacts"
+model_covariates <- c("age3cat", "gender")
+income_strata_subset <- "LIC/LMIC"
+random_study_effect <- TRUE
+data <- data 
+weighted <- TRUE 
+adapt_delta <- 0.95
+
 total_contacts <- function(MCMC_parameters, outcome_variable, model_covariates, income_strata_subset = NULL, 
-                           random_study_effect = TRUE, data, adapt_delta = 0.95) {
+                           random_study_effect = TRUE, data, weighted = FALSE, adapt_delta = 0.95) {
   
   # Checking MCMC Parameters Are Specified Correctly
   mcmc_parameter_names <- c("iterations", "burnin", "chains", "cores")
@@ -17,13 +26,38 @@ total_contacts <- function(MCMC_parameters, outcome_variable, model_covariates, 
     stop("Incorrect outcome variable specified. Must be: tot_contacts or tot_contacts_no_add")
   }
   
-  # Checking Model Covariates Are Specified Correctly
+  # Checking Model Covariates Are Specified Correctly and Then Filtering NAs Out of Dataset and Calculating Weights
   all_covariates <- c("age3cat", "gender", "weekday", "hh_size", "student", "employment", "method", "part_age")
   for (i in seq_along(model_covariates)) {
     if (!(model_covariates[i] %in% all_covariates)) {
       stop("Incorrect covariates specified. Must be from: age3cat (or part_age), gender, weekday, hh_size, student, employment and/or method")
     }
   }
+  filtered <- data 
+  for (i in 1:length(model_covariates)) {
+    group_var <- rlang::sym(model_covariates[i])
+    temp <- filtered %>%
+      filter(!is.na(!!group_var))
+    filtered <- temp
+  }
+  data <- filtered
+
+  # Generating Survey Weights 
+  total_income_strata <- data %>%
+    group_by(income) %>%
+    summarise(total_income_participants = n())
+  study_size <- data %>%
+    group_by(income, study) %>%
+    summarise(total_study_participants = n())
+  number_studies <- data %>%
+    group_by(income) %>%
+    summarise(unique_studies = length(unique(study)))
+  data <- data %>%
+    left_join(total_income_strata, by = "income") %>%
+    left_join(study_size, by = c("income", "study")) %>%
+    left_join(number_studies, by = "income") %>%
+    mutate(average_study_size = round(total_income_participants/unique_studies, 0),
+           weight = average_study_size * (1/total_study_participants))
   
   # Checking Subset Parameters Are Specified Correctly
   all_subsets <- c("LIC/LMIC", "UMIC", "HIC")
@@ -50,23 +84,38 @@ total_contacts <- function(MCMC_parameters, outcome_variable, model_covariates, 
   }
 
   # Specifying the Model for BRMS Based On Functions Inputs 
-  model_specification <- paste0(outcome_variable, " ~ ")
-  for (i in 1:length(model_covariates)) {
-    if (i != length(model_covariates)) {
-      model_specification <- paste(model_specification, model_covariates[i], " + ") 
-    } else {
-      model_specification <- paste0(model_specification, model_covariates[i], " ")
-      if (random_study_effect) {
-        model_specification <- paste0(model_specification, "+ (1|study)")
+  if (weighted) {
+    model_specification <- paste0(outcome_variable, "|weights(weight) ~ ")
+    for (i in 1:length(model_covariates)) {
+      if (i != length(model_covariates)) {
+        model_specification <- paste(model_specification, model_covariates[i], " + ") 
+      } else {
+        model_specification <- paste0(model_specification, model_covariates[i], " ")
+        if (random_study_effect) {
+          model_specification <- paste0(model_specification, "+ (1|study)")
+        }
+      }
+    }
+  } else {
+    model_specification <- paste0(outcome_variable, " ~ ")
+    for (i in 1:length(model_covariates)) {
+      if (i != length(model_covariates)) {
+        model_specification <- paste(model_specification, model_covariates[i], " + ") 
+      } else {
+        model_specification <- paste0(model_specification, model_covariates[i], " ")
+        if (random_study_effect) {
+          model_specification <- paste0(model_specification, "+ (1|study)")
+        }
       }
     }
   }
+
   
   # Running the Model 
   set.seed(68120)
   obj <- brms:: brm(formula = model_specification,
                     data = input_data,
-                    family = negbinomial(),
+                    family = brms::negbinomial(),
                     iter = MCMC_parameters$iterations,
                     warmup = MCMC_parameters$burnin,
                     chains = MCMC_parameters$chains,
@@ -106,14 +155,22 @@ total_contacts <- function(MCMC_parameters, outcome_variable, model_covariates, 
   file_name <- paste0(file_name, MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
   to_save <- list(fitting_output = obj, diagnostics = diagnostics)
   if (length(model_covariates) == 1) {
-    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Univariate/", file_name, ".rds"))
-  } else {
-    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Multivariate/", file_name, ".rds"))
+    if (weighted) {
+      saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Univariable/Weighted/weighted_", file_name, ".rds"))
+    } else {
+      saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Univariable/", file_name, ".rds"))
+    }  } else {
+    if (weighted) {
+      saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Multivariable/Weighted/weighted_", file_name, ".rds"))
+    } else {
+      saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Multivariable/", file_name, ".rds"))
+    }
   }
 }
 
 # Function to Run Bernoulli Random Effects Model for Whether Contact Was Physical Or Not
-physical_contact <- function(MCMC_parameters, model_covariates, income_strata_subset = NULL, random_study_effect = TRUE, data, adapt_delta = 0.95) {
+physical_contact <- function(MCMC_parameters, model_covariates, income_strata_subset = NULL, 
+                             random_study_effect = TRUE, data, weighted = FALSE, adapt_delta = 0.95) {
   
   # Checking MCMC Parameters Are Specified Correctly
   mcmc_parameter_names <- c("iterations", "burnin", "chains", "cores")
@@ -156,17 +213,32 @@ physical_contact <- function(MCMC_parameters, model_covariates, income_strata_su
   input_data$tot_phys_recorded[input_data$tot_phys_recorded == 0] <- NA   ### removes 0s
   
   # Specifying the Model for BRMS Based On Functions Inputs 
-  model_specification <- "tot_phys|trials(tot_phys_recorded) ~ "
-  for (i in 1:length(model_covariates)) {
-    if (i != length(model_covariates)) {
-      model_specification <- paste(model_specification, model_covariates[i], " + ") 
-    } else {
-      model_specification <- paste0(model_specification, model_covariates[i], " ")
-      if (random_study_effect) {
-        model_specification <- paste0(model_specification, "+ (1|study)")
+  if (weighted) {
+    model_specification <- "tot_phys|trials(tot_phys_recorded) + weights(weight) ~ "
+    for (i in 1:length(model_covariates)) {
+      if (i != length(model_covariates)) {
+        model_specification <- paste(model_specification, model_covariates[i], " + ") 
+      } else {
+        model_specification <- paste0(model_specification, model_covariates[i], " ")
+        if (random_study_effect) {
+          model_specification <- paste0(model_specification, "+ (1|study)")
+        }
       }
     }
-  }  
+  } else {
+    model_specification <- "tot_phys|trials(tot_phys_recorded) ~ "
+    for (i in 1:length(model_covariates)) {
+      if (i != length(model_covariates)) {
+        model_specification <- paste(model_specification, model_covariates[i], " + ") 
+      } else {
+        model_specification <- paste0(model_specification, model_covariates[i], " ")
+        if (random_study_effect) {
+          model_specification <- paste0(model_specification, "+ (1|study)")
+        }
+      }
+    }  
+  }
+
   
   # Running the Model 
   set.seed(68120)
@@ -203,14 +275,15 @@ physical_contact <- function(MCMC_parameters, model_covariates, income_strata_su
   to_save <- list(fitting_output = obj, diagnostics = diagnostics)
   file_name <- paste0(file_name, MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
   if (length(model_covariates) == 1) {
-    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Univariate/", file_name, ".rds"))
+    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Univariable/", file_name, ".rds"))
   } else {
-    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Multivariate/", file_name, ".rds"))
+    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Multivariable/", file_name, ".rds"))
   }  
 }
 
 # Function to Run Bernoulli Random Effects Model for Duration of Contact
-duration_contact <- function(MCMC_parameters, model_covariates, income_strata_subset = NULL, random_study_effect = TRUE, data, adapt_delta = 0.95) {
+duration_contact <- function(MCMC_parameters, model_covariates, income_strata_subset = NULL, 
+                             random_study_effect = TRUE, data, weighted = FALSE, adapt_delta = 0.95) {
   
   # Checking MCMC Parameters Are Specified Correctly
   mcmc_parameter_names <- c("iterations", "burnin", "chains", "cores")
@@ -253,17 +326,31 @@ duration_contact <- function(MCMC_parameters, model_covariates, income_strata_su
   input_data$tot_dur_recorded[input_data$tot_dur_recorded == 0] <- NA   ### removes 0s
   
   # Specifying the Model for BRMS Based On Functions Inputs 
-  model_specification <- "tot_dur_1hr_plus|trials(tot_dur_recorded) ~ "
-  for (i in 1:length(model_covariates)) {
-    if (i != length(model_covariates)) {
-      model_specification <- paste(model_specification, model_covariates[i], " + ") 
-    } else {
-      model_specification <- paste0(model_specification, model_covariates[i], " ")
-      if (random_study_effect) {
-        model_specification <- paste0(model_specification, "+ (1|study)")
+  if (weighted) {
+    model_specification <- "tot_dur_1hr_plus|trials(tot_dur_recorded) + weights(weight) ~ "
+    for (i in 1:length(model_covariates)) {
+      if (i != length(model_covariates)) {
+        model_specification <- paste(model_specification, model_covariates[i], " + ") 
+      } else {
+        model_specification <- paste0(model_specification, model_covariates[i], " ")
+        if (random_study_effect) {
+          model_specification <- paste0(model_specification, "+ (1|study)")
+        }
       }
     }
-  }  
+  } else {
+    model_specification <- "tot_dur_1hr_plus|trials(tot_dur_recorded) ~ "
+    for (i in 1:length(model_covariates)) {
+      if (i != length(model_covariates)) {
+        model_specification <- paste(model_specification, model_covariates[i], " + ") 
+      } else {
+        model_specification <- paste0(model_specification, model_covariates[i], " ")
+        if (random_study_effect) {
+          model_specification <- paste0(model_specification, "+ (1|study)")
+        }
+      }
+    }  
+  }
 
   # Running the Model 
   set.seed(68120)
@@ -300,8 +387,8 @@ duration_contact <- function(MCMC_parameters, model_covariates, income_strata_su
   to_save <- list(fitting_output = obj, diagnostics = diagnostics)
   file_name <- paste0(file_name, MCMC_parameters$iterations, "iter_", MCMC_parameters$chains, "chains_", Sys.Date())
   if (length(model_covariates) == 1) {
-    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Univariate/", file_name, ".rds"))
+    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Univariable/", file_name, ".rds"))
   } else {
-    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Multivariate/", file_name, ".rds"))
+    saveRDS(to_save, file = paste0("N:/Charlie/Contact_Matrix_Work/contact_patterns/Outputs/Multivariable/", file_name, ".rds"))
   }  
 }
