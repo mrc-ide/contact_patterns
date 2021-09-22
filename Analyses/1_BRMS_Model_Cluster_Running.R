@@ -56,7 +56,6 @@ MCMC_parameters <- list(iterations = 10000, burnin = 3000, chains = 2, cores = 2
 #    Analysis 1: Total Contacts (With Additional Work/Group/Other Contacts)           #
 #                                                                                     #
 #######################################################################################
-# Multivariate Analyses (Adjusting for Age or Gender)
 mv_total_LIC_base <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts", c("age3cat", "gender"), "LIC/LMIC", TRUE, data))
 mv_total_LIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts", c("age3cat", "gender", "method"), "LIC/LMIC", FALSE, data))
 mv_total_LIC_weekday <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts", c("age3cat", "gender", "weekday"), "LIC/LMIC", TRUE, data))
@@ -78,12 +77,11 @@ mv_total_HIC_hhsize <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts
 mv_total_HIC_student <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts", c("part_age", "gender", "student"), "HIC", TRUE, student_data)) 
 mv_total_HIC_employment <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts", c("part_age", "gender", "employment"), "HIC", TRUE, employment_data))
 
-########################################################################################
-#                                                                                      #
-# Analysis 1: Total Contacts (With Additional Work/Group/Other Contacts) AND WEIGHTING #
-#                                                                                      #
-########################################################################################
-# Multivariate Analyses (Adjusting for Age or Gender)
+##########################################################################################
+#                                                                                        #
+# Analysis 1.5: Total Contacts (With Additional Work/Group/Other Contacts) AND WEIGHTING #
+#                                                                                        #
+##########################################################################################
 mv_total_LIC_base_weighted <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts", c("age3cat", "gender"), "LIC/LMIC", TRUE, data, TRUE))
 mv_total_LIC_method_weighted <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts", c("age3cat", "gender", "method"), "LIC/LMIC", FALSE, data, TRUE))
 mv_total_LIC_weekday_weighted <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts", c("age3cat", "gender", "weekday"), "LIC/LMIC", TRUE, data, TRUE))
@@ -105,33 +103,11 @@ mv_total_HIC_hhsize_weighted <- run$enqueue(total_contacts(MCMC_parameters, "tot
 mv_total_HIC_student_weighted <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts", c("part_age", "gender", "student"), "HIC", TRUE, student_data, TRUE)) 
 mv_total_HIC_employment_weighted <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts", c("part_age", "gender", "employment"), "HIC", TRUE, employment_data, TRUE))
 
-mv_total_LIC_base_weighted$status()
-mv_total_LIC_method_weighted$status()
-mv_total_LIC_weekday_weighted$status()
-mv_total_LIC_hhsize_weighted$status()
-mv_total_LIC_student_weighted$status()
-mv_total_LIC_employment_weighted$status()
-
-mv_total_UMIC_base_weighted$status()
-mv_total_UMIC_method_weighted$status()
-mv_total_UMIC_weekday_weighted$status()
-mv_total_UMIC_hhsize_weighted$status()
-mv_total_UMIC_student_weighted$status()
-mv_total_UMIC_employment_weighted$status()
-
-mv_total_HIC_base_weighted$status()
-mv_total_HIC_method_weighted$status()
-mv_total_HIC_weekday_weighted$status()
-mv_total_HIC_hhsize_weighted$status()
-mv_total_HIC_student_weighted$status()
-mv_total_HIC_employment_weighted$status()
-
 #######################################################################################
 #                                                                                     #
 #    Analysis 2: Total Contacts (Without Additional Work/Group/Other Contacts)        #
 #                                                                                     #
 #######################################################################################
-# Multivariate Analyses (Adjusting for Age or Gender)
 mv_total_noadd_LIC_base <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts_no_add", c("age3cat", "gender"), "LIC/LMIC", TRUE, data))
 mv_total_noadd_LIC_method <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts_no_add", c("age3cat", "gender", "method"), "LIC/LMIC", FALSE, data))
 mv_total_noadd_LIC_weekday <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts_no_add", c("age3cat", "gender", "weekday"), "LIC/LMIC", TRUE, data))
@@ -153,14 +129,11 @@ mv_total_noadd_HIC_hhsize <- run$enqueue(total_contacts(MCMC_parameters, "tot_co
 mv_total_noadd_HIC_student <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts_no_add", c("part_age", "gender", "student"), "HIC", TRUE, student_data)) 
 mv_total_noadd_HIC_employment <- run$enqueue(total_contacts(MCMC_parameters, "tot_contacts_no_add", c("part_age", "gender", "employment"), "HIC", TRUE, employment_data))
 
-
 #######################################################################################
 #                                                                                     #
 #                     Analysis 3: Physicality of Contacts                             #
 #                                                                                     #
 #######################################################################################
-
-# Multivariate Analyses (Adjusting for Age or Gender)
 mv_physical_LIC_base <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender"), "LIC/LMIC", TRUE, data))
 mv_physical_LIC_method <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "method"), "LIC/LMIC", FALSE, data))
 mv_physical_LIC_weekday <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "weekday"), "LIC/LMIC", TRUE, data))
@@ -184,10 +157,56 @@ mv_physical_HIC_employment <- run$enqueue(physical_contact(MCMC_parameters, c("p
 
 #######################################################################################
 #                                                                                     #
+#                Analysis 3.5: Physicality of Contacts (Weighted)                     #
+#                                                                                     #
+#######################################################################################
+mv_physical_LIC_base_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender"), "LIC/LMIC", TRUE, data, TRUE))
+mv_physical_LIC_method_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "method"), "LIC/LMIC", FALSE, data, TRUE))
+mv_physical_LIC_weekday_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "weekday"), "LIC/LMIC", TRUE, data, TRUE))
+mv_physical_LIC_hhsize_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "hh_size"), "LIC/LMIC", TRUE, data, TRUE))
+mv_physical_LIC_student_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("part_age", "gender", "student"), "LIC/LMIC", TRUE, student_data, TRUE))
+mv_physical_LIC_employment_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("part_age", "gender", "employment"), "LIC/LMIC", TRUE, employment_data, TRUE))
+
+mv_physical_UMIC_base_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender"), "UMIC", TRUE, data, TRUE))
+mv_physical_UMIC_method_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "method"), "UMIC", FALSE, data, TRUE))
+mv_physical_UMIC_weekday_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "weekday"), "UMIC", TRUE, data, TRUE))
+mv_physical_UMIC_hhsize_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "hh_size"), "UMIC", TRUE, data, TRUE))
+mv_physical_UMIC_student_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("part_age", "gender", "student"), "UMIC", TRUE, student_data, TRUE))
+mv_physical_UMIC_employment_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("part_age", "gender", "employment"), "UMIC", TRUE, employment_data, TRUE))
+
+mv_physical_HIC_base_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender"), "HIC", TRUE, data, TRUE))
+mv_physical_HIC_method_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "method"), "HIC", FALSE, data, TRUE))
+mv_physical_HIC_weekday_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "weekday"), "HIC", TRUE, data, TRUE))
+mv_physical_HIC_hhsize_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("age3cat", "gender", "hh_size"), "HIC", TRUE, data, TRUE))
+mv_physical_HIC_student_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("part_age", "gender", "student"), "HIC", TRUE, student_data, TRUE))
+mv_physical_HIC_employment_weighted <- run$enqueue(physical_contact(MCMC_parameters, c("part_age", "gender", "employment"), "HIC", TRUE, employment_data, TRUE))
+
+mv_physical_LIC_base_weighted$status()
+mv_physical_LIC_method_weighted$status()
+mv_physical_LIC_weekday_weighted$status()
+mv_physical_LIC_hhsize_weighted$status()
+mv_physical_LIC_student_weighted$status()
+mv_physical_LIC_employment_weighted$status()
+
+mv_physical_UMIC_base_weighted$status()
+mv_physical_UMIC_method_weighted$status()
+mv_physical_UMIC_weekday_weighted$status()
+mv_physical_UMIC_hhsize_weighted$status()
+mv_physical_UMIC_student_weighted$status()
+mv_physical_UMIC_employment_weighted$status()
+
+mv_physical_HIC_base_weighted$status()
+mv_physical_HIC_method_weighted$status()
+mv_physical_HIC_weekday_weighted$status()
+mv_physical_HIC_hhsize_weighted$status()
+mv_physical_HIC_student_weighted$status()
+mv_physical_HIC_student_weighted$status()
+
+#######################################################################################
+#                                                                                     #
 #                     Analysis 4: Duration of Contacts                                #
 #                                                                                     #
 #######################################################################################
-# Multivariate Analyses (Adjusting for Age or Gender)
 mv_duration_LIC_base <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender"), "LIC/LMIC", TRUE, data))
 mv_duration_LIC_method <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "method"), "LIC/LMIC", FALSE, data))
 mv_duration_LIC_weekday <- run$enqueue(duration_contact(MCMC_parameters,  c("age3cat", "gender", "weekday"), "LIC/LMIC", TRUE, data))
@@ -208,6 +227,32 @@ mv_duration_HIC_weekday <- run$enqueue(duration_contact(MCMC_parameters,  c("age
 mv_duration_HIC_hhsize <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "hh_size"), "HIC", TRUE, data))
 mv_duration_HIC_student <- run$enqueue(duration_contact(MCMC_parameters, c("part_age", "gender", "student"), "HIC", TRUE, student_data))
 mv_duration_HIC_employment <- run$enqueue(duration_contact(MCMC_parameters, c("part_age", "gender", "employment"), "HIC", TRUE, employment_data))
+
+#######################################################################################
+#                                                                                     #
+#                  Analysis 4.5: Duration of Contacts (Weighted)                      #
+#                                                                                     #
+#######################################################################################
+mv_duration_LIC_base_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender"), "LIC/LMIC", TRUE, data, TRUE))
+mv_duration_LIC_method_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "method"), "LIC/LMIC", FALSE, data, TRUE))
+mv_duration_LIC_weekday_weighted <- run$enqueue(duration_contact(MCMC_parameters,  c("age3cat", "gender", "weekday"), "LIC/LMIC", TRUE, data, TRUE))
+mv_duration_LIC_hhsize_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "hh_size"), "LIC/LMIC", TRUE, data, TRUE))
+mv_duration_LIC_student_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("part_age", "gender", "student"), "LIC/LMIC", TRUE, student_data, TRUE))
+mv_duration_LIC_employment_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("part_age", "gender", "employment"), "LIC/LMIC", TRUE, employment_data, TRUE))
+
+mv_duration_UMIC_base_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender"), "UMIC", TRUE, data, TRUE))
+mv_duration_UMIC_method_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "method"), "UMIC", FALSE, data, TRUE))
+mv_duration_UMIC_weekday_weighted <- run$enqueue(duration_contact(MCMC_parameters,  c("age3cat", "gender", "weekday"), "UMIC", TRUE, data, TRUE))
+mv_duration_UMIC_hhsize_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "hh_size"), "UMIC", TRUE, data, TRUE))
+mv_duration_UMIC_student_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("part_age", "gender", "student"), "UMIC", TRUE, student_data, TRUE))
+mv_duration_UMIC_employment_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("part_age", "gender", "employment"), "UMIC", TRUE, employment_data, TRUE))
+
+mv_duration_HIC_base_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender"), "HIC", TRUE, data, TRUE))
+mv_duration_HIC_method_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "method"), "HIC", FALSE, data, TRUE))
+mv_duration_HIC_weekday_weighted <- run$enqueue(duration_contact(MCMC_parameters,  c("age3cat", "gender", "weekday"), "HIC", TRUE, data, TRUE))
+mv_duration_HIC_hhsize_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("age3cat", "gender", "hh_size"), "HIC", TRUE, data, TRUE))
+mv_duration_HIC_student_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("part_age", "gender", "student"), "HIC", TRUE, student_data, TRUE))
+mv_duration_HIC_employment_weighted <- run$enqueue(duration_contact(MCMC_parameters, c("part_age", "gender", "employment"), "HIC", TRUE, employment_data, TRUE))
 
 # table(data$gender, useNA = "ifany")
 # table(data$income, data$study)
