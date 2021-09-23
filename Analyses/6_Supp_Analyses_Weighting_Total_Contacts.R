@@ -96,7 +96,8 @@ ggplot(overall) +
 x <- overall %>%
   select(income, unweighted_mean, weighted_mean) %>%
   group_by(income) %>%
-  summarise(correlation = cor(unweighted_mean, weighted_mean))
+  summarise(correlation = cor(unweighted_mean, weighted_mean),
+            ranked_correlation = cor(unweighted_mean, weighted_mean, method = "spearman"))
 
 res.fried <- rbind(wi_tot_overall, unw_tot_overall) %>% 
   filter(name == "mean") %>%

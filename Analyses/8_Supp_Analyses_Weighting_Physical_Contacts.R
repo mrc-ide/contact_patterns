@@ -1,5 +1,5 @@
 # Loading required libraries
-library(tidyverse); library(rstati)
+library(tidyverse); library(rstatix)
 
 # Sourcing required functions
 source("Functions/brms_output_summary_functions.R")
@@ -93,7 +93,8 @@ ggplot(overall) +
 x <- overall %>%
   select(income, unweighted_mean, weighted_mean) %>%
   group_by(income) %>%
-  summarise(correlation = cor(unweighted_mean, weighted_mean))
+  summarise(correlation = cor(unweighted_mean, weighted_mean),
+            ranked_correlation = cor(unweighted_mean, weighted_mean, method = "spearman"))
 
 res.fried <- rbind(wi_phys_overall, unw_phys_overall) %>% 
   filter(name == "mean") %>%
