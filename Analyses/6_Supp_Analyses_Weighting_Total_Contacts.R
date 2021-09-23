@@ -97,3 +97,14 @@ x <- overall %>%
   select(income, unweighted_mean, weighted_mean) %>%
   group_by(income) %>%
   summarise(correlation = cor(unweighted_mean, weighted_mean))
+
+res.fried <- rbind(wi_tot_overall, unw_tot_overall) %>% 
+  filter(name == "mean") %>%
+  friedman_test(value ~ type |variable)
+res.fried
+
+res.fried_income <- rbind(wi_tot_overall, unw_tot_overall) %>% 
+  filter(name == "mean") %>%
+  group_by(income) %>%
+  friedman_test(value ~ type |variable)
+res.fried_income
