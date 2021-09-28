@@ -12,7 +12,7 @@ unw_phys_wk_LIC <- t(summarise_coefs(readRDS("Outputs/Multivariable/Unweighted/p
 unw_phys_stu_LIC <- t(summarise_coefs(readRDS("Outputs/Multivariable/Unweighted/physical_LIC_LMIC_part_age_gender_student_10000iter_2chains_2021-05-04.rds")))[4, , drop = FALSE]
 unw_phys_emp_LIC <- t(summarise_coefs(readRDS("Outputs/Multivariable/Unweighted/physical_LIC_LMIC_part_age_gender_employment_10000iter_2chains_2021-05-04.rds")))[4, , drop = FALSE]
 unw_phys_LIC <- data.frame(rbind(unw_phys_age_gend_LIC, unw_phys_hh_LIC, unw_phys_meth_LIC, unw_phys_wk_LIC, unw_phys_stu_LIC,unw_phys_emp_LIC))
-unw_phys_LIC$income <- "LIC"
+unw_phys_LIC$income <- "LIC/LMIC"
 unw_phys_LIC$type <- "unweighted"
 
 unw_phys_age_gend_UMIC <- t(summarise_coefs(readRDS("Outputs/Multivariable/Unweighted/physical_UMIC_age3cat_gender_10000iter_2chains_2021-05-04.rds")))[2:4, ]
@@ -39,7 +39,7 @@ unw_phys_overall <- rbind(unw_phys_LIC, unw_phys_UMIC, unw_phys_HIC)
 unw_phys_overall$variable <- rownames(unw_phys_overall)
 unw_phys_overall <- unw_phys_overall %>%
   pivot_longer(cols = c("X5.", "mean", "X95."))
-unw_phys_overall$income <- factor(unw_phys_overall$income, levels = c("LIC", "UMIC", "HIC"))
+unw_phys_overall$income <- factor(unw_phys_overall$income, levels = c("LIC/LMIC", "UMIC", "HIC"))
 
 # physical contacts without additional contacts
 wei_phys_age_gend_LIC <- t(summarise_coefs(readRDS("Outputs/Multivariable/Weighted/weighted_physical_LIC_LMIC_age3cat_gender_10000iter_2chains_2021-09-22.rds")))[2:4, ]
@@ -49,7 +49,7 @@ wei_phys_wk_LIC <- t(summarise_coefs(readRDS("Outputs/Multivariable/Weighted/wei
 wei_phys_stu_LIC <- t(summarise_coefs(readRDS("Outputs/Multivariable/Weighted/weighted_physical_LIC_LMIC_part_age_gender_student_10000iter_2chains_2021-09-22.rds")))[4, , drop = FALSE]
 wei_phys_emp_LIC <- t(summarise_coefs(readRDS("Outputs/Multivariable/Weighted/weighted_physical_LIC_LMIC_part_age_gender_employment_10000iter_2chains_2021-09-22.rds")))[4, , drop = FALSE]
 wei_phys_LIC <- data.frame(rbind(wei_phys_age_gend_LIC, wei_phys_hh_LIC, wei_phys_meth_LIC, wei_phys_wk_LIC, wei_phys_stu_LIC, wei_phys_emp_LIC))
-wei_phys_LIC$income <- "LIC"
+wei_phys_LIC$income <- "LIC/LMIC"
 wei_phys_LIC$type <- "weighted"
 
 wei_phys_age_gend_UMIC <- t(summarise_coefs(readRDS("Outputs/Multivariable/Weighted/weighted_physical_UMIC_age3cat_gender_10000iter_2chains_2021-09-22.rds")))[2:4, ]
@@ -76,7 +76,7 @@ wi_phys_overall <- rbind(wei_phys_LIC, wei_phys_UMIC, wei_phys_HIC)
 wi_phys_overall$variable <- rownames(wi_phys_overall)
 wi_phys_overall <- wi_phys_overall %>%
   pivot_longer(cols = c("X5.", "mean", "X95."))
-wi_phys_overall$income <- factor(wi_phys_overall$income, levels = c("LIC", "UMIC", "HIC"))
+wi_phys_overall$income <- factor(wi_phys_overall$income, levels = c("LIC/LMIC", "UMIC", "HIC"))
 
 overall <- rbind(wi_phys_overall, unw_phys_overall) %>%
   pivot_wider(names_from = c(type, name), values_from = value)
@@ -88,7 +88,13 @@ ggplot(overall) +
   geom_errorbarh(aes(x = unweighted_mean, y = weighted_mean, 
                      xmin = `unweighted_X5.`, xmax = `unweighted_X95.`)) +
   geom_abline(intercept = 0) +
-  facet_wrap(. ~ income, scales = "free")
+  facet_wrap(. ~ income, scales = "free") +
+  labs( x="Odds Ratio (main analysis)", y="Odds Ratio (sensitivity analysis)", title="(B) Physical Contacts") +
+  theme( axis.text = element_text( size = 12 ),    ##y axis label size
+         axis.text.x = element_text( size = 12 ),   ##x axis label size
+         axis.title = element_text( size = 14), # Axis titles size
+         strip.text = element_text(size = 15), ##facet title size
+         plot.title = element_text(size = 18)) 
 
 x <- overall %>%
   select(income, unweighted_mean, weighted_mean) %>%
