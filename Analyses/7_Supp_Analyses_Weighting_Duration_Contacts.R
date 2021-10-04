@@ -1,5 +1,5 @@
 # Loading required libraries
-library(tidyverse)
+library(tidyverse); library(rstatix)
 
 # Sourcing required functions
 source("Functions/brms_output_summary_functions.R")

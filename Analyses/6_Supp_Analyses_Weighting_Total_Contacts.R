@@ -1,5 +1,5 @@
 # Loading required libraries
-library(tidyverse)
+library(tidyverse); library(rstatix)
 
 # Sourcing required functions
 source("Functions/brms_output_summary_functions.R")
@@ -106,12 +106,12 @@ x <- overall %>%
   summarise(correlation = cor(unweighted_mean, weighted_mean),
             ranked_correlation = cor(unweighted_mean, weighted_mean, method = "spearman"))
 
-res.fried <- rbind(wi_tot_overall, unw_tot_overall) %>% 
+res.fried <- rbind(wi_tot_overall, unw_tot_overall) %>%
   filter(name == "mean") %>%
   friedman_test(value ~ type |variable)
 res.fried
 
-res.fried_income <- rbind(wi_tot_overall, unw_tot_overall) %>% 
+res.fried_income <- rbind(wi_tot_overall, unw_tot_overall) %>%
   filter(name == "mean") %>%
   group_by(income) %>%
   friedman_test(value ~ type |variable)

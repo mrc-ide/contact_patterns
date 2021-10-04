@@ -1,4 +1,5 @@
-# Loading Required Libraries - devtools::install_github("milesmcbain/friendlyeval")
+# Loading Required Libraries
+# Note friendlyeval requires devtools::install_github("milesmcbain/friendlyeval")
 library(forestplot); library(tidyverse); library(cowplot); library(friendlyeval)
 
 # Sourcing Required Function
