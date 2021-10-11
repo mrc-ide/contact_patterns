@@ -32,6 +32,6 @@ The following instructions require that all the relevant `R` packages have been 
 
 1. Clone this Github repository and make a local copy on your desktop.
 2. Run the `R` code from  [Analyses](./Analyses) for the particular part of the analysis you are trying to reproduce.
-    Note that we utilised the high performance computing cluster available to members of the Department of Infectious Disease Epidemiology (DIDE) at Imperial College to generate the outputs in [Outputs](./Outputs). The script that generated these outputs is 1_DIDE_Cluster_BRMS_Model_Running.R. 
-    However, we also provide a script not dependent on cluster access (1_Non-Cluster_BRMS_Model_Running.R), that can be run locally to regenerate any of the results available in [Outputs](./Outputs). 
+    - Note that we utilised the high performance computing cluster available to members of the Department of Infectious Disease Epidemiology (DIDE) at Imperial College to generate the outputs in [Outputs](./Outputs). The script that generated these outputs is 1_DIDE_Cluster_BRMS_Model_Running.R. 
+    - However, we also provide a script not dependent on cluster access (1_Non-Cluster_BRMS_Model_Running.R), that can be run locally to regenerate any of the results available in [Outputs](./Outputs). 
 3. The output from running this code will be a number of MCMC objects (also available in [Outputs](./Outputs)), as well as a series of plots representing the output from MCMC based fitting of the relevant model to the collated data. These plots form the basis for the figures presented in main text of the associated publication. 
