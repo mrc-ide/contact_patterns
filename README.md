@@ -1,14 +1,20 @@
 # Patterns of Social Mixing Relevant to Transmission of Respiratory Pathogens: A Systematic Review of Contact Surveys 🤝🤧 
 
 ## Overview
-This repository contains the code used to analyse the results of a systematic review of social contact surveys. Briefly, a systematic review was carried out in order to identify social contact surveys that had been carried out in Lower, Lower-Middle and Upper-Middle Income Countries (LICs, LMICs and UMICs respectively). Collated individual-level data from these surveys was then analysed using a Bayesian Regression based approach in order to explore the factors driving and shaping the patterns of social contact across populations.
+This repository contains the code used to analyse the results of a systematic review of social contact surveys. Briefly, a systematic review was carried out in order to identify social contact surveys that had been carried out in Lower, Lower-Middle and Upper-Middle Income Countries (LICs, LMICs and UMICs respectively). Alongside data from previously carried out surveys in High Income Countries (HICs), collated individual-level data from these surveys was then analysed using a Bayesian Regression based approach in order to explore the factors driving and shaping the patterns of social contact across populations. A pre-print containing further information and a full description of the methodology and results is available at:
+
+Mousa, A., Winskill, P., Watson, O. J., Ratmann, O., Monod, M., Ajelli, M., ... & Whittaker, C. (2021). Social Contact Patterns and Implications for Infectious Disease Transmission: A Systematic Review and Meta-Analysis of Contact Surveys. <i>medRxiv</i> (2021). Available here: https://www.medrxiv.org/content/10.1101/2021.06.10.21258720v1.
+
 
 ## Repo Contents
-- [Analyses](./Analyses): Code running the analyses and generates the figures featured in the paper.
+- [Analyses](./Analyses): Code running the analyses and generating the figures featured in the paper.
 - [Functions](./Functions): Extra functions required for the analyses presented in the paper.
 - [Data](./Data): Containing the individual-level social contact data collated as part of the systematic review and that are used in the analyses presented here. 
-- [Figures](./Figures): Containing .PDF and .ai versions of paper figures.
-- [Outputs](./Outputs): Containing .rds outputs from model fitting (undertaken using a Bayesian Regression approach and implemented  using BRMS) for each of the analyses conducted.
+- [Figures](./Figures): Containing .PDF versions of the raw figure outputs from the analyses.
+- [Outputs](./Outputs): Containing .rds outputs from model fitting (undertaken using a Bayesian Regression approach and implemented  using BRMS) for each of the analyses conducted. These are grouped according to whether:
+    - The analysis is [Univarable](./Outputs/Univariable) or [Multivariable](./Outputs/Multivariable) i.e. whether or not age and sex were adjusted for when examining the role of individual factors. 
+    - The analysis included all total contacts or whether additional contacts (such as additional work contacts, group contacts, and number missed out, which were recorded separately and in less detail by participants compared to their other contacts) were included in the analyses or not. 
+    - The analysis was weighted or not, with the weighting a sensitivity analysis where all surveys were weighted equally (main analyses implicitly weight by sample size).
 
 ## Software Requirements
 Running the code contained in this repository requires the following
@@ -23,6 +29,6 @@ This work utilises the probabilistic programming language STAN for model fitting
 ## Installation Guide and Instructions for Use
 The following instructions require that all the relevant `R` packages have been installed by the user and that STAN has been installed. To replicate and reproduce the analyses presented in this paper, do the following: 
 
-1. Download the [Data](./Data) folder of this repository. 
-2. Download the `R` code from  [Analyses](./Analyses) for the particular part of the analysis you are trying to reproduce. 
+1. Download the [Data](./Data) folder and [Functions](./Functions) folder from this repository. 
+2. Download the `R` code from  [Analyses](./Analyses) for the particular part of the analysis you are trying to reproduce. Note that we utilised the high performance computing cluster available to members of the Department of Infectious Disease Epidemiology (DIDE) at Imperial College to generate the outputs in [Outputs](./Outputs). The script that generated these outputs is available [here] (./Analyses/1_DIDE_Cluster_BRMS_Model_Running.R). However, we also provide a script not dependent on cluster access, available [here] (./Analyses/1_Non-Cluster_BRMS_Model_Running.R), that can be run locally to regenerate any of the results available in [Outputs](./Outputs). 
 4. Run the `R` code. The output from running this code will be a number of MCMC objects, as well as a series of plots representing the output from MCMC based fitting of the relevant model to the collated data. These plots form the basis of the figures presented in the publication. 
