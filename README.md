@@ -23,12 +23,16 @@ Running the code contained in this repository requires the following
 - The package **brms** (Version 2.13.5 used here) (see: https://cran.r-project.org/web/packages/brms/index.html)
 - The packages contained within **tidyverse** (Version 2.13.5 used here) (see: https://cran.r-project.org/web/packages/tidyverse/index.html)
 - The package **gdata** (version 2.13.5 used here) (see: https://cran.r-project.org/web/packages/gdata/index.html)
+- The package **friendlyeval** (see: https://github.com/MilesMcBain/friendlyeval). 
 
 This work utilises the probabilistic programming language STAN for model fitting (implemented via the package BRMS). STAN is a program for analysis of Bayesian models using Markov Chain Monte Carlo (MCMC) simulation. More information and details about the software and its use via R are available here: https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started.
 
 ## Installation Guide and Instructions for Use
 The following instructions require that all the relevant `R` packages have been installed by the user and that STAN has been installed. To replicate and reproduce the analyses presented in this paper, do the following: 
 
-1. Download the [Data](./Data) folder and [Functions](./Functions) folder from this repository. 
-2. Download the `R` code from  [Analyses](./Analyses) for the particular part of the analysis you are trying to reproduce. Note that we utilised the high performance computing cluster available to members of the Department of Infectious Disease Epidemiology (DIDE) at Imperial College to generate the outputs in [Outputs](./Outputs). The script that generated these outputs is available [here] (./Analyses/1_DIDE_Cluster_BRMS_Model_Running.R). However, we also provide a script not dependent on cluster access, available [here] (./Analyses/1_Non-Cluster_BRMS_Model_Running.R), that can be run locally to regenerate any of the results available in [Outputs](./Outputs). 
-4. Run the `R` code. The output from running this code will be a number of MCMC objects, as well as a series of plots representing the output from MCMC based fitting of the relevant model to the collated data. These plots form the basis of the figures presented in the publication. 
+1. Clone this Github repository and make a local copy on your desktop.
+2. Run the `R` code from  [Analyses](./Analyses) for the particular part of the analysis you are trying to reproduce. 
+    a. Note that we utilised the high performance computing cluster available to members of the Department of Infectious Disease Epidemiology (DIDE) at Imperial College to generate the outputs in [Outputs](./Outputs). The script that generated these outputs is 1_DIDE_Cluster_BRMS_Model_Running.R. 
+    b. However, we also provide a script not dependent on cluster access (1_Non-Cluster_BRMS_Model_Running.R), that can be run locally to regenerate any of the results available in [Outputs](./Outputs). 
+3. The output from running this code will be a number of MCMC objects (also available in [Outputs](./Outputs)), as well as a series of plots representing the output from MCMC based fitting of the relevant model to the collated data. These plots form the basis for the figures presented in main text of the associated publication. 
+

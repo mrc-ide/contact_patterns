@@ -1,11 +1,3 @@
-# MCMC_parameters <- list(iterations = 100, burnin = 30, chains = 1, cores = 1)
-# model_covariates <- c("age3cat", "gender")
-# income_strata_subset <- "LIC/LMIC"
-# random_study_effect <- TRUE
-# data <- data
-# weighted <- TRUE
-# adapt_delta <- 0.95
-
 # Function to Run Negative Binomial Random Effects Model for Total Contacts Made
 total_contacts <- function(MCMC_parameters, outcome_variable, model_covariates, income_strata_subset = NULL, 
                            random_study_effect = TRUE, data, weighted = FALSE, adapt_delta = 0.95) {
