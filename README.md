@@ -8,7 +8,7 @@ Mousa, A., Winskill, P., Watson, O. J., Ratmann, O., Monod, M., Ajelli, M., ... 
 ## Repo Contents
 - [Analyses](./Analyses): Code running the analyses and generating the figures featured in the paper.
 - [Functions](./Functions): Extra functions required for the analyses presented in the paper.
-- [Data](./Data): Containing the individual-level social contact data collated as part of the systematic review and that are used in the analyses presented here. 
+- [Data](./Data): Containing the individual-level social contact data collated as part of the systematic review and that are used in the analyses presented here, as well as a data dictionary and information about the studies.
 - [Figures](./Figures): Containing .PDF versions of the raw figure outputs from the analyses.
 - [Outputs](./Outputs): Containing .rds outputs from model fitting (undertaken using a Bayesian Regression approach and implemented  using BRMS) for each of the analyses conducted. These are grouped according to whether:
     - The analysis is [Univarable](./Outputs/Univariable) or [Multivariable](./Outputs/Multivariable) i.e. whether or not age and sex were adjusted for when examining the role of individual factors. 
