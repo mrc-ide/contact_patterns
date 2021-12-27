@@ -1,10 +1,9 @@
 # Patterns of Social Mixing Relevant to Transmission of Respiratory Pathogens: A Systematic Review of Contact Surveys 🤝🤧 
 
 ## Overview
-This repository contains the code used to analyse the results of a systematic review of social contact surveys. Briefly, a systematic review was carried out in order to identify social contact surveys that had been carried out in Lower, Lower-Middle and Upper-Middle Income Countries (LICs, LMICs and UMICs respectively). Alongside data from previously carried out surveys in High Income Countries (HICs), collated individual-level data from these surveys was then analysed using a Bayesian Regression based approach in order to explore the factors driving and shaping the patterns of social contact across populations. A pre-print containing further information and a full description of the methodology and results is available at:
+This repository contains the code used to analyse the results of a systematic review of social contact surveys. Briefly, a systematic review was carried out in order to identify social contact surveys that had been carried out in Lower, Lower-Middle and Upper-Middle Income Countries (LICs, LMICs and UMICs respectively). Alongside data from previously carried out surveys in High Income Countries (HICs), collated individual-level data from these surveys was then analysed using a Bayesian Regression based approach in order to explore the factors driving and shaping the patterns of social contact across populations. The corresponding scientific article has been published and is available at:
 
-Mousa, A., Winskill, P., Watson, O. J., Ratmann, O., Monod, M., Ajelli, M., ... & Whittaker, C. (2021). Social Contact Patterns and Implications for Infectious Disease Transmission: A Systematic Review and Meta-Analysis of Contact Surveys. <i>medRxiv</i> (2021). Available here: https://www.medrxiv.org/content/10.1101/2021.06.10.21258720v1.
-
+Mousa, A., Winskill, P., Watson, O. J., Ratmann, O., Monod, M., Ajelli, M., ... & Whittaker, C. (2021). Social Contact Patterns and Implications for Infectious Disease Transmission: A Systematic Review and Meta-Analysis of Contact Surveys. <i>eLife</i> (2021). Available here: https://elifesciences.org/articles/70294
 
 ## Repo Contents
 - [Analyses](./Analyses): Code running the analyses and generating the figures featured in the paper.
